@@ -88,7 +88,7 @@ A auditoria assegura a integridade do sistema, mantendo trilhas de dados, logs d
 
 
 ## Fluxograma Geral
-
+O fluxograma a seguir apresenta uma visão consolidada do processo de transporte, desde o início da viagem até a geração de relatórios administrativos e financeiros. Ele evidencia a sequência das etapas, as interações entre sistemas e os pontos críticos de captura de dados, servindo como referência visual para compreender o fluxo completo de informações.
 ```mermaid
 ---
 config:
