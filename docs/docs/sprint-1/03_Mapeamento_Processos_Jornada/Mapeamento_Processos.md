@@ -1,14 +1,14 @@
 ---
 sidebar_position: 3
 slug: /sprint-1/processos/mapeamento
-description: "Mapeamento detalhado dos processos de negócio da Atvos"
+description: "Mapeamento detalhado dos processos de negócio"
 ---
 
-# Mapeamento de Processos – Atvos
+# Mapeamento de Processos
 
 Este documento apresenta o mapeamento dos processos e dados relacionados à locomoção de funcionários da Atvos, atualmente realizada por ônibus e mini-vans terceirizadas. O objetivo é demonstrar como o processo manual de marcação dos motoristas pode ser substituído por registros automáticos integrados à telemetria dos veículos.  
 
----
+
 
 ## Contexto do Processo
 
@@ -16,9 +16,10 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 - **Solução proposta:** captura automática via telemetria (GPS, odômetro, sensores e identificação do motorista).  
 - **Benefício esperado:** confiabilidade, redução de retrabalho e integração entre operação e administração.  
 
----
+
 
 ## Processo de Ingestão de Dados
+Este processo descreve como as informações das viagens são capturadas automaticamente por meio da telemetria e validadas para garantir consistência e qualidade.
 
 ### Recebimento Automático via Telemetria
 - Motorista inicia viagem → telemetria registra hora inicial, km inicial e local de saída (GPS).  
@@ -29,10 +30,10 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 - Garantias automáticas: km final ≥ km inicial, rota válida, passageiros ≥ 0.  
 - Redução de inconsistências manuais e lacunas nos registros.  
 
----
+
 
 ## Processo de Cálculo de Custos
-
+Aqui são definidos os critérios para apuração dos custos de transporte, considerando tanto os quilômetros rodados quanto os valores fixos previstos em contrato.
 ### Km Variável
 - Calculado automaticamente com base nos registros de odômetro e tipo de contrato (fixo ou por km).  
 
@@ -42,10 +43,10 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 ### Consolidação
 - Boletins diários geram consolidação mensal automática para área administrativa.  
 
----
+
 
 ## Processo de Geração de Relatórios
-
+Esta etapa transforma os dados coletados em boletins diários e relatórios mensais, permitindo análise comparativa, financeira e estratégica.
 ### Relatórios Diários (Boletim de Mediação)
 - Captura automática de dados: hora, km, local, motorista logado, passageiros.  
 - Resultado: boletim diário digital, sem preenchimento manual.  
@@ -57,10 +58,10 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 ### Exportações
 - Dashboards e relatórios financeiros gerados automaticamente para análise estratégica e auditoria.  
 
----
+
 
 ## Processo de Monitoramento
-
+O monitoramento garante o acompanhamento em tempo real das operações, possibilitando rastreamento, alertas automáticos e respostas rápidas a problemas.
 ### Acompanhamento Operacional
 - Rastreamento em tempo real de veículos, motoristas e passageiros.  
 
@@ -70,10 +71,10 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 ### Escaladas
 - Notificações para supervisores em casos de problemas operacionais ou divergências de registro.  
 
----
+
 
 ## Processo de Auditoria
-
+A auditoria assegura a integridade do sistema, mantendo trilhas de dados, logs de acesso e controles que reforçam governança e conformidade.
 ### Trilha de Dados
 - Histórico completo das viagens e alterações registradas.  
 
@@ -83,7 +84,7 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 ### Controles
 - Conformidade com governança, auditoria e proteção contra fraudes.  
 
----
+
 
 
 ## Fluxograma Geral
@@ -101,6 +102,7 @@ flowchart TD
     D -.-> J[Obs.: Passageiros podem ser capturados via sensor ou input em app]
 ```
 
+O fluxograma ilustra de forma clara a sequência operacional, evidenciando como a automação elimina etapas manuais e garante fluidez no registro das viagens. Além disso, a representação gráfica reforça a rastreabilidade do processo, desde a coleta inicial até a geração dos relatórios administrativos e financeiros, destacando pontos de captura crítica e integrações essenciais para auditoria e gestão.
 ### Visão End-to-End
 
 A visão end-to-end representa o **fluxo completo de dados e processos**, desde o início da viagem até a consolidação dos relatórios financeiros, permitindo identificar pontos críticos e oportunidades de automação.  
@@ -113,7 +115,7 @@ No contexto da Atvos:
 
 Essa visão permite acompanhar todo o ciclo de ponta a ponta, garantindo **rastreabilidade, precisão e integração entre operação e área administrativa**.
 
----
+
 
 ### Pontos de Controle
 
@@ -127,7 +129,8 @@ Para garantir confiabilidade e integridade dos dados, alguns **pontos de control
 | Auditoria                    | Histórico de alterações e logs de sistema | Rastreabilidade e compliance interno |
 | Discrepâncias                | Notificação automática para gestor ou administrativo | Correção rápida de divergências |
 
----
+A adoção desses pontos de controle fortalece a confiabilidade do processo ao criar uma camada adicional de verificação em cada etapa crítica. Dessa forma, os dados coletados são não apenas automatizados, mas também auditáveis e rastreáveis, reduzindo riscos de inconsistências e aumentando a segurança das informações utilizadas para cálculos, relatórios e tomadas de decisão.
+
 
 ### Integrações
 
@@ -140,6 +143,8 @@ O sistema proposto se integra com diferentes componentes para automatizar o flux
 
 Essas integrações permitem que o fluxo de informação seja **contínuo, confiável e auditável**, eliminando a necessidade de processos manuais e aumentando a eficiência operacional.
 
+## Conclusão
 
-
+O mapeamento apresentado demonstra como a automação, por meio da telemetria e da integração com sistemas administrativos, transforma o processo de transporte em um fluxo mais eficiente, confiável e auditável. Ao substituir registros manuais por capturas automáticas, a organização reduz inconsistências, assegura conformidade e fortalece a rastreabilidade de ponta a ponta.
+Com pontos de controle bem definidos, relatórios consolidados e integrações estruturadas, o processo passa a oferecer maior suporte à tomada de decisão estratégica, além de contribuir para a transparência operacional e a otimização dos custos. Dessa forma, estabelece-se uma base sólida para a evolução contínua e para o alinhamento entre operação e gestão administrativa.
 
