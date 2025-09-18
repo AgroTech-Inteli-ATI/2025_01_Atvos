@@ -178,3 +178,10 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 | RN62 | Formatos de exportação    | CSV UTF-8 (vírgula), XLSX; datas ISO 8601                      | RF36–RF38, RF07 |
 | RN63 | Paginação                  | Padrão de 1000 registros por página (configurável)             | RF36–RF38, RF46 |
 | RN64 | Localização                | pt-BR para números/datas; apresentação padrão em BRT           | RF43–RF47 |
+
+## Conclusão
+
+Os requisitos não funcionais estabelecem as condições de qualidade e operação sob as quais os requisitos funcionais devem atuar. As métricas, SLOs/SLAs e políticas aqui descritas (RNxx) devem ser utilizadas como critérios de aceite e de monitoração contínua em produção. Recomenda-se:
+- Revisões periódicas das métricas e metas conforme o crescimento de uso e volumetria.
+- Alinhar mudanças de RNF com impactos previstos nos RF e comunicar depreciações/versionamentos.
+- Garantir que instrumentação (logs, métricas, audit) esteja ativa para comprovar atendimento aos RNF.

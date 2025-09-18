@@ -160,3 +160,10 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 | RF60 | Associação de rotas       | Associar rotas a veículos e/ou centros de custo (opcional).                                         | RN47 |
 | RF61 | Validações de rotas       | Quilometragem esperada > 0; evitar duplicatas (mesmo início/fim) com versão distinta.               | RN37 |
 | RF62 | Importação de rotas       | Importação CSV em lote com relatório de inconsistências.                                            | RN30, RN47 |
+
+## Conclusão
+
+Este documento consolida o escopo funcional do MVP, organizado por áreas e com identificação única (RFxx) para facilitar a comunicação, o planejamento e a validação. Cada requisito funcional faz referência direta aos requisitos não funcionais (RNxx) que definem métricas operacionais e critérios de qualidade. Para evoluções futuras, recomenda-se:
+- Manter a rastreabilidade RF↔RNF ao incluir novos requisitos ou alterar existentes.
+- Validar as dependências entre Ingestão, Processamento e Dashboard para garantir consistência dos indicadores.
+- Classificar requisitos por fases (MVP, Fase 2) quando necessário e associar critérios de aceite e testes.
