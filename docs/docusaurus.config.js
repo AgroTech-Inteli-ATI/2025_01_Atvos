@@ -20,6 +20,11 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+  stylesheets: [
+  'src/css/custom.css',
+  ],
+
 
   presets: [
     [
@@ -85,6 +90,7 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
     }),
+    
 };
 
 export default config;
