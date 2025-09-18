@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 slug: /
-description: "Apresentação do projeto Dashboard Morro Verde"
+description: "Apresentação do projeto"
 ---
 
 # Plataforma de Auditoria de Logística
