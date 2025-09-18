@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 slug: /proximos-passos
-description: "Planejamento para implementação em produção e próximos desenvolvimentos do Dashboard Morro Verde"
+description: "Planejamento para implementação em produção e próximos desenvolvimentos"
 ---
 
 # Próximos Passos
