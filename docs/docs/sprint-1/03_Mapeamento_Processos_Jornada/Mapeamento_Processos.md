@@ -90,6 +90,12 @@ A auditoria assegura a integridade do sistema, mantendo trilhas de dados, logs d
 ## Fluxograma Geral
 
 ```mermaid
+---
+config:
+    theme: base
+    themeVariables:
+        primaryColor: "#5B9E79"
+---
 flowchart TD
     A[Motorista inicia viagem] --> B[Telemetria registra hora inicial, local e km inicial]
     B --> C[Veículo em movimento]
