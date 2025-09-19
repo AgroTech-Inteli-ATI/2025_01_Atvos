@@ -28,6 +28,7 @@ Embora React seja uma biblioteca poderosa para construção de interfaces web co
 
 
 ## Estrutura do Projeto
+&ensp; A estrutura do projeto define como os arquivos, pastas e módulos estão organizados. Ela facilita a colaboração, a manutenção do código e a escalabilidade do sistema.
 
 ### Organização de Pastas
 
@@ -54,6 +55,7 @@ Embora React seja uma biblioteca poderosa para construção de interfaces web co
 
 
 ## Interface do Usuário
+&ensp; A interface do usuário (UI) é a camada visual e interativa de um sistema. Ela permite que o usuário se comunique com o software de forma intuitiva e eficiente.
 
 ### Design System
 

@@ -38,6 +38,7 @@ description: "Estratégia de deploy e sistema de logs"
 
 
 ## Configuração de Ambiente
+&ensp; Configuração de ambiente é o processo de preparar o sistema, software e dependências necessárias para desenvolvimento, teste ou produção. Garante que o projeto rode de forma consistente em diferentes máquinas.
 
 ### Variáveis de Ambiente
 
@@ -66,6 +67,7 @@ description: "Estratégia de deploy e sistema de logs"
 
 
 ## Manutenção
+&ensp; Monitoramento é o acompanhamento contínuo do desempenho, disponibilidade e comportamento de um sistema. Permite identificar problemas rapidamente e garantir operação confiável.
 
 ### Atualizações
 

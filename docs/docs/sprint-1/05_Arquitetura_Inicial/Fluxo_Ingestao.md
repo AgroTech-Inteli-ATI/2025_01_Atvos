@@ -31,6 +31,7 @@ description: "Especificação do fluxo de ingestão de dados"
 
 
 ## Fallback CSV
+&ensp; Fallback CSV é um mecanismo de contingência que utiliza arquivos CSV para armazenar ou recuperar dados quando o sistema principal falha. Garante continuidade mínima de operação e evita perda de informações.
 
 ### Upload Manual
 
@@ -49,6 +50,7 @@ description: "Especificação do fluxo de ingestão de dados"
 
 
 ## Qualidade dos Dados
+&ensp; Qualidade dos dados refere-se à precisão, consistência, completude e confiabilidade das informações armazenadas. Dados de qualidade garantem análises corretas e melhor tomada de decisão.
 
 ### Validações
 
@@ -62,6 +64,7 @@ description: "Especificação do fluxo de ingestão de dados"
 
 
 ## Escalabilidade
+&ensp; Escalabilidade é a capacidade de um sistema crescer em desempenho ou recursos conforme a demanda aumenta.
 
 ### Volume de Dados
 
