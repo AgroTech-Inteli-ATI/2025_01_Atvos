@@ -21,7 +21,7 @@ description: "Visão geral da arquitetura da solução"
 
 ## Arquitetura de Alto Nível
 
-* **Frontend:** Streamlit para dashboards, intereações com os documentos gerados e upload de novos arquivos.
+* **Frontend:** Streamlit para dashboards, interações com os documentos gerados e upload de novos arquivos.
 * **Backend:** Django, arquitetura em camadas (apps separados para telemetria, auditoria, relatórios e usuários).
 * **Banco de Dados:** PostgreSQL hospedado no Supabase, armazenando dados de veículos, viagens, auditorias e custos.
 * **Armazenamento de Arquivos:** S3 para DataFrames Parquet e históricos de dados intermediários.
@@ -47,6 +47,7 @@ description: "Visão geral da arquitetura da solução"
 
 
 ## Princípios Arquiteturais
+&ensp; Princípios arquiteturais são diretrizes que orientam o design e a estrutura de sistemas de software. Eles definem boas práticas, padrões e restrições para garantir escalabilidade, desempenho, segurança e manutenção a longo prazo.
 
 ### Simplicidade
 
@@ -73,6 +74,7 @@ description: "Visão geral da arquitetura da solução"
 
 
 ## Decisões Técnicas
+&ensp; Decisões técnicas são escolhas feitas durante o desenvolvimento de um sistema, como linguagens, frameworks e padrões adotados. Elas impactam diretamente a qualidade, manutenção e evolução do software.
 
 ### Justificativas
 
