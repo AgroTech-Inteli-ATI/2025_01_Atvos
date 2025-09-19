@@ -25,6 +25,8 @@ description: "Jornada do usuário"
   Fonte: Produzida pelos Autores (2025) <br/> <a href="https://www.figma.com/design/vGF5x1UMN5gWR1Fcye3RP5/Persona-templete--Copy-?node-id=2009-80&t=sCrXlkfPha4iAtsF-1" target="_blank"> Acesse aqui </a>
 </p>
 
+&emsp; Helena enfrenta uma governança frágil nos processos de pagamento das transportadoras, baseados em dados não auditáveis que geram risco financeiro. Nesse sentido, ela lida com planilhas inconsistentes, precisa auditar manualmente informações suspeitas e justificar custos sem provas concretas, o que causa ansiedade, frustração e sensação de impotência. Mesmo após o fechamento, persiste a preocupação com possíveis erros e “km fantasmas”, deixando-a resignada e ciente de que um sistema automatizado para cruzar dados resolveria o problema com muito mais eficiência.
+
 **Depois da solução**
 
 <p style={{textAlign: 'center'}}>Figura 2: Jornada do Usuário - Depois da Solução</p>
@@ -39,5 +41,7 @@ description: "Jornada do usuário"
 <p style={{textAlign: 'center'}}>
   Fonte: Produzida pelos Autores (2025) <br/> <a href="https://www.figma.com/design/vGF5x1UMN5gWR1Fcye3RP5/Persona-templete--Copy-?node-id=2009-80&t=sCrXlkfPha4iAtsF-1" target="_blank"> Acesse aqui </a>
 </p>
+
+&emsp; Com a nova plataforma, a jornada de Helena foi transformada: os dados de telemetria são automaticamente ingeridos, dashboards intuitivos destacam divergências por criticidade, permitindo decisões seguras e ágeis baseadas em dados concretos. Essa automação liberou Helena para análises estratégicas, passando de um papel reativo para proativo, otimizando operações e propondo melhorias para a empresa, substituindo a incerteza por confiança e eficiência.
 
 &emsp; A transformação da jornada de Helena demonstra como uma solução tecnológica focada na governança de dados pode converter um processo operacional desgastante em uma função de alto valor estratégico. Ao implementar uma plataforma que prioriza a **transparência, a automação e a confiabilidade**, a Atvos não apenas otimiza o trabalho de analistas como Helena, mas também fortalece sua governança financeira, reduz riscos e transforma o setor financeiro em um parceiro estratégico para a tomada de decisões.  
