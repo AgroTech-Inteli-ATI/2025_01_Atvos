@@ -3,6 +3,6 @@
   "position": 4,
   "link": {
     "type": "generated-index",
-    "description": "Inventário das fontes de dados e definição das tabelas auxiliares necessárias."
+    "description": "O dicionário de dados e tabelas é um documento que contém as descrições sobre os dados recebidos."
   }
 }
