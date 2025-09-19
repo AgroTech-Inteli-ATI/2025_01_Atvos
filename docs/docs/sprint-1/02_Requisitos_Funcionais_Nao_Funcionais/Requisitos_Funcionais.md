@@ -6,11 +6,15 @@ description: "Especificação dos requisitos funcionais do MVP"
 
 # Requisitos Funcionais
 
-Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades e comportamentos necessários para gerar valor ao usuário e ao negócio. Neste documento, cada requisito é identificado por um código único no formato RFxx (por exemplo, RF01), organizado por áreas (ingestão, processamento, relatórios, interface e gestão de dados). Sempre que pertinente, cada requisito traz uma referência aos requisitos não funcionais (RNxx) que impõem métricas, padrões de segurança, desempenho e qualidade associados, garantindo rastreabilidade entre o que é entregue (RF) e como deve operar (RNF).
+Os requisitos funcionais descrevem o que o sistema deve fazer. As capacidades e comportamentos necessários para gerar valor ao usuário e ao negócio. Neste documento, cada requisito é identificado por um código único no formato RFxx (por exemplo, RF01), organizado por áreas (ingestão, processamento, relatórios, interface e gestão de dados). Sempre que pertinente, cada requisito traz uma referência aos requisitos não funcionais (RNxx) que impõem métricas, padrões de segurança, desempenho e qualidade associados, garantindo rastreabilidade entre o que é entregue (RF) e como deve operar (RNF).
 
 ## Ingestão de Dados
 
+Esta seção descreve como os dados são coletados e validados desde a origem até a entrada no sistema.
+
 ### API de Telemetria
+
+A tabela a seguir especifica os requisitos para consumo seguro e transformação dos eventos de telemetria.
 
 | ID   | Requisito                                   | Descrição                                                                 | RNF Relacionados |
 |------|---------------------------------------------|---------------------------------------------------------------------------|------------------|
@@ -18,6 +22,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 | RF02 | Transformação de eventos em entidades       | Transformar os requests da API em entidades internas do sistema.         | RN37, RN45, RN51 |
 
 ### Fallback para Upload CSV
+
+Aqui estão os requisitos para ingestão alternativa por arquivos em formato CSV e suas validações.
 
 | ID   | Requisito                           | Descrição                                                                                 | RNF Relacionados |
 |------|-------------------------------------|-------------------------------------------------------------------------------------------|------------------|
@@ -32,6 +38,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ### Validação de Dados
 
+Define regras de consistência e qualidade que devem ser aplicadas antes do processamento.
+
 | ID   | Requisito                              | Descrição                                                                                                  | RNF Relacionados |
 |------|----------------------------------------|------------------------------------------------------------------------------------------------------------|------------------|
 | RF11 | Integridade de ativos                  | deviceId deve existir no cadastro de ativos ou entrar em fila de pendência para cadastro posterior.       | RN35, RN37 |
@@ -44,7 +52,11 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ## Processamento e Cálculos
 
+Reúne as regras de cálculo e agregação que produzem indicadores e custos.
+
 ### Cálculo de Km Variável
+
+Requisitos para computar distâncias por dia e por mês a partir de eventos válidos.
 
 | ID   | Requisito                      | Descrição                                                                                                        | RNF Relacionados |
 |------|--------------------------------|------------------------------------------------------------------------------------------------------------------|------------------|
@@ -57,6 +69,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ### Consolidação de Custos Fixos
 
+Regras para somar e ratear custos de natureza fixa.
+
 | ID   | Requisito                      | Descrição                                                                                  | RNF Relacionados |
 |------|--------------------------------|--------------------------------------------------------------------------------------------|------------------|
 | RF24 | custoFixoMes                   | Soma das entradas de custoFixo no mês, ou rateio mensal de contratos fixos.               | RN37 |
@@ -64,6 +78,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 | RF26 | Janela de ajustes              | Atualização D-1 e ajustes retroativos permitidos por até 2 meses.                          | RN26, RN27 |
 
 ### Consolidação de Custos Variáveis
+
+Regras para apurar custos com base em uso e projeção.
 
 | ID   | Requisito                           | Descrição                                                                                                      | RNF Relacionados |
 |------|-------------------------------------|----------------------------------------------------------------------------------------------------------------|------------------|
@@ -73,7 +89,11 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ## Geração de Relatórios
 
+Define os produtos de informação entregues pelo sistema para apoio à decisão.
+
 ### Relatórios D-1 (Diários)
+
+Requisitos de conteúdo, filtros e prazos para a entrega diária.
 
 | ID   | Requisito                   | Descrição                                                                                     | RNF Relacionados |
 |------|-----------------------------|-----------------------------------------------------------------------------------------------|------------------|
@@ -83,6 +103,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ### Relatórios Mensais
 
+Requisitos para relatórios consolidados por mês, com prazos e ajustes.
+
 | ID   | Requisito                      | Descrição                                                                                                   | RNF Relacionados |
 |------|--------------------------------|-------------------------------------------------------------------------------------------------------------|------------------|
 | RF33 | Conteúdo Mensal                | Gasto médio, custo fixo, variável até o momento e previsto; comparativo planejado vs realizado; agrícola. | RN51 |
@@ -90,6 +112,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 | RF35 | Entrega Mensal                 | Disponível em D+1; fechamento com ajustes até D+3.                                                          | RN27 |
 
 ### Exportação de Dados
+
+Regras para exportação dos conjuntos de dados com seleção e paginação.
 
 | ID   | Requisito                     | Descrição                                                                                | RNF Relacionados |
 |------|--------------------------------|------------------------------------------------------------------------------------------|------------------|
@@ -99,7 +123,11 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ## Interface do Usuário
 
+Abrange a apresentação de informações e interações do usuário.
+
 ### Autenticação e Conta
+
+Especifica como usuários entram, criam contas e recuperam acesso.
 
 | ID   | Requisito                 | Descrição                                                                                         | RNF Relacionados |
 |------|---------------------------|---------------------------------------------------------------------------------------------------|------------------|
@@ -110,6 +138,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ### Dashboard Principal
 
+Define os indicadores e listas exibidos na página principal.
+
 | ID   | Requisito                          | Descrição                                                                                                               | RNF Relacionados |
 |------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------|------------------|
 | RF43 | Indicadores gerais no dashboard    | Gasto do dia, gasto médio mensal, custo fixo mensal, custo variável até agora, custo previsto, total de viagens, ativos.| RN01, RN02, RN51 |
@@ -119,6 +149,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ### Visualização de Viagens
 
+Lista e detalha viagens com rotas, eventos e custos.
+
 | ID   | Requisito                 | Descrição                                                                                       | RNF Relacionados |
 |------|---------------------------|---------------------------------------------------------------------------------------------------|------------------|
 | RF46 | Lista de viagens          | Colunas: viagemId, veículo, início, fim, duração, km, custo variável, status.                    | RN01, RN02 |
@@ -126,6 +158,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 | RF48 | Ações em viagens          | Exportar, marcar para revisão, adicionar observação.                                             | RN28, RN47 |
 
 ### Filtros e Buscas
+
+Regras para consultar e refinar dados no sistema.
 
 | ID   | Requisito                 | Descrição                                                             | RNF Relacionados |
 |------|---------------------------|-----------------------------------------------------------------------|------------------|
@@ -135,6 +169,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ### Alertas e Notificações
 
+Define avisos operacionais e preferências de envio.
+
 | ID   | Requisito                 | Descrição                                                                                 | RNF Relacionados |
 |------|---------------------------|-------------------------------------------------------------------------------------------|------------------|
 | RF52 | Alertas de outliers       | Thresholds configuráveis para odômetro e custos.                                          | RN52, RN53 |
@@ -143,7 +179,11 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 
 ## Gestão de Dados
 
+Requisitos administrativos para tarifas e rotas.
+
 ### Gestão de Tarifas
+
+CRUD de tarifas com campos, histórico e simulação.
 
 | ID   | Requisito                 | Descrição                                                                                             | RNF Relacionados |
 |------|---------------------------|-------------------------------------------------------------------------------------------------------|------------------|
@@ -153,6 +193,8 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 | RF58 | Simulação de impacto      | Visualizar impacto estimado no mês corrente antes de publicar.                                        | RN01 |
 
 ### Configuração de Rotas
+
+Cadastro, associação e importação de rotas com validações.
 
 | ID   | Requisito                 | Descrição                                                                                           | RNF Relacionados |
 |------|---------------------------|-----------------------------------------------------------------------------------------------------|------------------|
@@ -164,6 +206,6 @@ Os requisitos funcionais descrevem o que o sistema deve fazer — as capacidades
 ## Conclusão
 
 Este documento consolida o escopo funcional do MVP, organizado por áreas e com identificação única (RFxx) para facilitar a comunicação, o planejamento e a validação. Cada requisito funcional faz referência direta aos requisitos não funcionais (RNxx) que definem métricas operacionais e critérios de qualidade. Para evoluções futuras, recomenda-se:
-- Manter a rastreabilidade RF↔RNF ao incluir novos requisitos ou alterar existentes.
-- Validar as dependências entre Ingestão, Processamento e Dashboard para garantir consistência dos indicadores.
-- Classificar requisitos por fases (MVP, Fase 2) quando necessário e associar critérios de aceite e testes.
+* Manter a rastreabilidade RF↔RNF ao incluir novos requisitos ou alterar existentes.
+* Validar as dependências entre Ingestão, Processamento e Dashboard para garantir consistência dos indicadores.
+* Classificar requisitos por fases (MVP, Fase 2) quando necessário e associar critérios de aceite e testes.

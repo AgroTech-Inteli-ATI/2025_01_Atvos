@@ -6,47 +6,61 @@ description: "Especificação dos requisitos não funcionais do MVP"
 
 # Requisitos Não Funcionais
 
-Os requisitos não funcionais definem como o sistema deve operar — critérios de qualidade, desempenho, segurança, disponibilidade, governança e experiência do usuário. Eles estabelecem métricas, SLAs/SLOs e políticas que condicionam a implementação dos requisitos funcionais. Neste documento, cada requisito é identificado por um código RNxx (por exemplo, RN01) e está relacionado aos RFs que impacta, garantindo rastreabilidade bidirecional entre o que o produto faz (RF) e sob quais parâmetros de qualidade e operação (RNF).
+Os requisitos não funcionais definem como o sistema deve operar. Critérios de qualidade, desempenho, segurança, disponibilidade, governança e experiência do usuário. Eles estabelecem métricas, SLAs/SLOs e políticas que condicionam a implementação dos requisitos funcionais. Neste documento, cada requisito é identificado por um código RNxx (por exemplo, RN01) e está relacionado aos RFs que impacta, garantindo rastreabilidade bidirecional entre o que o produto faz (RF) e sob quais parâmetros de qualidade e operação (RNF).
 
 ## Usabilidade
 
+Esta seção define critérios de experiência e ergonomia das interfaces, com metas de desempenho percebido.
+
 ### Interface Web
+
+Metas de carregamento, resposta e consistência visual para páginas principais e navegação.
 
 | ID   | Requisito                                   | Métrica/Alvo                                                                                  | RF Relacionados |
 |------|---------------------------------------------|-----------------------------------------------------------------------------------------------|-----------------|
-| RN01 | Resposta de filtros e interações            | ≤ 1s nas páginas Dashboard, Viagens e Relatórios (mês corrente)                               | RF31, RF33, RF43–RF47, RF49–RF51 |
-| RN02 | Carregamento e navegação                    | Carregamento inicial ≤ 3s em 4G; navegação lista/detalhe ≤ 2s                                 | RF43–RF47, RF46–RF48 |
+| RN01 | Resposta de filtros e interações            | p95 ≤ 1s para ações de filtro nas páginas Dashboard, Viagens e Relatórios (mês corrente), medido por RUM e testes sintéticos em rede 4G/DSL | RF31, RF33, RF43–RF47, RF49–RF51 |
+| RN02 | Carregamento e navegação                    | LCP ≤ 2,5s e TTFB ≤ 500ms no carregamento inicial (rede 4G); p95 da navegação lista/detalhe ≤ 2s | RF43–RF47, RF46–RF48 |
 | RN03 | Responsividade                              | Suporte desktop ≥ 1366x768; mobile para consulta (sem edição avançada)                        | RF43–RF51 |
-| RN04 | Consistência visual                         | Aderência ao design system (cores/tipografia/componentes); 100% das telas principais          | RF43–RF47 |
+| RN04 | Consistência visual                         | 100% das telas principais aderem ao design system; regressão visual ≤ 0,5% vs baseline (visual diff) | RF43–RF47 |
 
 
 ### Experiência do Usuário
 
+Padrões de feedback, legibilidade e comunicação de estado para ações do usuário.
+
 | ID   | Requisito                        | Métrica/Alvo                                                        | RF Relacionados |
 |------|----------------------------------|----------------------------------------------------------------------|-----------------|
 | RN05 | Feedback de estado               | 100% das ações exibem carregando/sucesso/erro/sem dados              | RF43–RF48, RF36–RF38 |
-| RN06 | Frescor de dados visível         | Timestamp da última atualização visível no Dashboard                 | RF43 |
-| RN07 | Mensagens de erro úteis          | Erros sem stack/segredos; código de suporte em 100% das mensagens    | RF03, RF08, RF10, RF38 |
+| RN06 | Frescor de dados visível         | Exibir "Última atualização: dd/MM/yyyy HH:mm:ss BRT (há Xm)" no cabeçalho; cobertura 100% das páginas do Dashboard; autoatualização a cada 120s; botão "Atualizar"; cores por idade: verde ≤ 5 min, amarelo 5–15, vermelho > 15; tooltip com fonte/ETL; anúncio de atualização via aria-live="polite" | RF43 |
+| RN07 | Mensagens de erro úteis          | 0 ocorrências de stack trace/segredos no UI; 100% das mensagens exibem código de suporte (formato ERR-####) e X-Request-ID correlacionado | RF03, RF08, RF10, RF38 |
 
 ### Acessibilidade
 
+Critérios de inclusão e navegação por teclado com conformidade a padrões reconhecidos.
+
 | ID   | Requisito                         | Métrica/Alvo                                              | RF Relacionados |
 |------|-----------------------------------|-----------------------------------------------------------|-----------------|
-| RN08 | WCAG 2.1 AA                       | Conformidade AA nas páginas principais                     | RF43–RF47, RF46–RF48 |
+| RN08 | WCAG 2.1 AA                       | 0 issues críticos/sérios em axe-core; contraste ≥ 4,5:1; navegação por teclado em 100% dos elementos das páginas principais | RF43–RF47, RF46–RF48 |
 | RN09 | Alternativos para gráficos        | Textos alternativos/resumos para 100% dos indicadores     | RF43–RF45 |
 | RN10 | Alvos de clique                   | ≥ 44×44px e espaçamento adequado                          | RF43–RF47 |
 
 ## Segurança
 
+Requisitos para controle de acesso, perfis, autenticação e proteção de dados em trânsito e em repouso.
+
 ### Controle de Acesso
+
+Regras de autorização e escopo de dados por perfil e unidade organizacional.
 
 | ID   | Requisito                        | Métrica/Alvo                                           | RF Relacionados |
 |------|----------------------------------|--------------------------------------------------------|-----------------|
-| RN11 | RBAC por perfis                  | Perfis aplicados a menus/ações/escopo de dados         | RF55–RF58, RF46–RF48, RF36–RF38 |
+| RN11 | RBAC por perfis                  | 100% das rotas protegidas por guard/autorização; 0 acessos indevidos nos testes E2E de RBAC; menus/ações ocultos quando sem permissão | RF55–RF58, RF46–RF48, RF36–RF38 |
 | RN12 | Menor privilégio                  | Revisão trimestral de permissões e acessos             | RF55–RF58 |
-| RN13 | Escopo por centro/unidade         | Filtros e dados respeitam escopo do usuário            | RF31, RF34, RF46 |
+| RN13 | Escopo por centro/unidade         | 0 registros fora do escopo retornados em consultas de amostra (3 perfis × 3 unidades); filtros pré-aplicados por escopo em 100% das páginas | RF31, RF34, RF46 |
 
 ### Perfis de Usuário
+
+Definições de permissões por tipo de usuário e limites de acesso.
 
 | ID   | Requisito          | Métrica/Alvo                                                       | RF Relacionados |
 |------|--------------------|--------------------------------------------------------------------|-----------------|
@@ -55,6 +69,8 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 | RN16 | Perfil Visualizador  | Leitura de dashboards/viagens/relatórios; sem exportação em massa | RF43–RF47, RF46 |
 
 ### Autenticação e Autorização
+
+Políticas de senha, sessão e proteção contra tentativas indevidas e tráfego inseguro.
 
 | ID   | Requisito                    | Métrica/Alvo                                                         | RF Relacionados |
 |------|------------------------------|----------------------------------------------------------------------|-----------------|
@@ -67,7 +83,11 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 
 ## Desempenho
 
+Metas de tempo de resposta, processamento, exportação e capacidade sob diferentes cargas.
+
 ### Tempo de Processamento
+
+SLOs de atualização de dados, geração de relatórios e exportações.
 
 | ID   | Requisito                      | Métrica/Alvo                                         | RF Relacionados |
 |------|--------------------------------|------------------------------------------------------|-----------------|
@@ -78,6 +98,8 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 
 ### Capacidade de Dados
 
+Limites de tamanho, taxa de ingestão e tolerância a picos de uso.
+
 | ID   | Requisito                     | Métrica/Alvo                                         | RF Relacionados |
 |------|-------------------------------|------------------------------------------------------|-----------------|
 | RN30 | Limites de upload             | CSV até 10 MB e 50 mil linhas por arquivo            | RF09, RF62 |
@@ -86,26 +108,34 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 
 ### Disponibilidade
 
+Níveis de serviço, janelas de manutenção e metas de recuperação.
+
 | ID   | Requisito                 | Métrica/Alvo                      | RF Relacionados |
 |------|---------------------------|-----------------------------------|-----------------|
-| RN29 | SLO de disponibilidade    | 99,5% mensal                      | RF43–RF47, RF30–RF35 |
-| RN33 | Manutenções               | Aviso com 48h; fora horário pico  | RF30–RF35 |
+| RN29 | SLO de disponibilidade    | 99,5% mensal (≤ 3h36m de indisponibilidade/mês), medido por monitoramento sintético e RUM | RF43–RF47, RF30–RF35 |
+| RN33 | Manutenções               | Aviso com ≥ 48h; janelas fora do horário de pico (08:00–18:00 BRT) e com duração ≤ 2h | RF30–RF35 |
 | RN34 | RTO/RPO                   | RTO ≤ 4h; RPO ≤ 1h                | RF30–RF35, RF36–RF38 |
 
 ## Governança de Dados
 
+Padrões para qualidade, backup, recuperação e retenção de dados.
+
 ### Qualidade dos Dados
+
+Validações de integridade, tipagem e padrões de formato antes de cálculos e relatórios.
 
 | ID   | Requisito                     | Métrica/Alvo                                            | RF Relacionados |
 |------|-------------------------------|---------------------------------------------------------|-----------------|
 | RN35 | Ingestão parcial com relatório| ≥ 95% de aceitação por arquivo; relatório de erros      | RF08, RF10 |
 | RN36 | Deduplicação                  | Duplicados < 1% dos eventos processados                 | RF15 |
-| RN37 | Tipagem e domínios            | Validações aplicadas antes de cálculos                  | RF11–RF14, RF18–RF19, RF23–RF29, RF59–RF61 |
+| RN37 | Tipagem e domínios            | 100% dos registros participando de cálculos aprovados nas validações; registros inválidos excluídos de agregações e reportados com contagem por regra | RF11–RF14, RF18–RF19, RF23–RF29, RF59–RF61 |
 | RN38 | Padrões de formatos           | Datas ISO 8601; números com ponto decimal               | RF07, RF12, RF37 |
 | RN25 | Clock skew                     | Aceitar timestamps futuros até +5 min; reorder 24h      | RF12 |
 | RN51 | Outliers/km e custos          | Regras aplicadas e sinalização em até 5 min             | RF16, RF22 |
 
 ### Backup e Recuperação
+
+Frequência de backups, testes de restauração e diretrizes de continuidade do negócio.
 
 | ID   | Requisito             | Métrica/Alvo                                   | RF Relacionados |
 |------|-----------------------|------------------------------------------------|-----------------|
@@ -115,6 +145,8 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 | RN42 | Procedimentos de DR    | Documentados para parcial e total              | RF30–RF35, RF36–RF38 |
 
 ### Retenção de Dados
+
+Prazos para manter dados brutos, agregados, logs e auditorias.
 
 | ID   | Requisito                 | Métrica/Alvo                         | RF Relacionados |
 |------|---------------------------|--------------------------------------|-----------------|
@@ -126,15 +158,21 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 
 ## Rastreabilidade
 
+Observabilidade, auditoria de ações e monitoramento contínuo do sistema.
+
 ### Logs do Sistema
+
+Métricas, correlação e proteção de informações em logs estruturados.
 
 | ID   | Requisito                     | Métrica/Alvo                                        | RF Relacionados |
 |------|-------------------------------|-----------------------------------------------------|-----------------|
 | RN45 | Observabilidade ingestão      | Correlation-Id e métricas de latência/erros         | RF01–RF02 |
 | RN46 | Logs estruturados/mascaramento| JSON; sem segredos/PII; mascaramento e truncamento  | RF36–RF38, RF39–RF42 |
-| RN47 | Relatórios de processamento   | Relatórios de upload/exportação disponíveis pós-ação | RF08, RF10, RF38 |
+| RN47 | Relatórios de processamento   | Relatório gerado e disponível em até 60s após upload/exportação; inclui contagens de sucesso/falha e amostras de erro | RF08, RF10, RF38 |
 
 ### Trilha de Auditoria
+
+Registros de mudanças e eventos de segurança com políticas de integridade.
 
 | ID   | Requisito                 | Métrica/Alvo                                      | RF Relacionados |
 |------|---------------------------|---------------------------------------------------|-----------------|
@@ -144,17 +182,23 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 
 ### Monitoramento
 
+Checagens de saúde, alertas e notificações com metas de latência e confiabilidade.
+
 | ID   | Requisito                 | Métrica/Alvo                                               | RF Relacionados |
 |------|---------------------------|------------------------------------------------------------|-----------------|
 | RN51 | Lag de processamento      | ≤ 5 min até refletir no Dashboard                          | RF43–RF45 |
 | RN52 | Alertas de outliers       | Thresholds configuráveis; latência de alerta ≤ 5 min       | RF52–RF53 |
 | RN53 | Notificações              | E-mail entregue ≤ 5 min; preferências por usuário salvas   | RF54 |
 | RN54 | SLOs e alertas            | D-1 atraso > 07:30; 5xx ingestão > 1% em 5 min (alerta)    | RF30–RF32, RF01–RF02 |
-| RN55 | Health checks/sintéticos  | Checagens periódicas nas rotas críticas                    | RF01–RF02, RF30–RF38 |
+| RN55 | Health checks/sintéticos  | Checagens a cada 1 min nas rotas críticas; tempo de resposta p95 ≤ 500ms; falhas consecutivas ≥ 3 disparam alerta | RF01–RF02, RF30–RF38 |
 
 ## Compatibilidade
 
+Suporte a navegadores, dispositivos e integrações com padrões de versionamento e paginação.
+
 ### Navegadores Suportados
+
+Lista de navegadores suportados e regras de regressão visual.
 
 | ID   | Requisito                 | Métrica/Alvo                                   | RF Relacionados |
 |------|---------------------------|-----------------------------------------------|-----------------|
@@ -164,12 +208,16 @@ Os requisitos não funcionais definem como o sistema deve operar — critérios 
 
 ### Dispositivos
 
+Sistemas operacionais e resoluções mínimas recomendadas para a melhor experiência.
+
 | ID   | Requisito                 | Métrica/Alvo                          | RF Relacionados |
 |------|---------------------------|---------------------------------------|-----------------|
 | RN59 | Plataformas                | Windows/macOS/Linux nos navegadores   | RF43–RF48 |
 | RN03 | Resolução mínima           | 1366x768 a 1920x1080 (verificado)     | RF43–RF48 |
 
 ### Integrações
+
+Regras de coexistência de versões, idempotência e formatos de exportação.
 
 | ID   | Requisito                 | Métrica/Alvo                                                   | RF Relacionados |
 |------|---------------------------|----------------------------------------------------------------|-----------------|
