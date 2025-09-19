@@ -6,12 +6,9 @@ description: "Especificação da arquitetura do frontend"
 
 # Arquitetura do Frontend
 
-## Introdução
 &ensp; Este documento detalha a arquitetura do frontend da aplicação, com foco na escolha tecnológica, estrutura do projeto e componentes de interface. A seção apresenta as justificativas para a adoção do Streamlit, as bibliotecas auxiliares utilizadas, a organização de pastas, o gerenciamento de estado e aspectos de design, responsividade e acessibilidade, evidenciando como a interface foi planejada para ser eficiente, intuitiva e voltada à visualização de dados.
 
 ## Tecnologia Escolhida
-
-### React vs Streamlit
 
 Embora React seja uma biblioteca poderosa para construção de interfaces web complexas e altamente interativas, **Streamlit** foi escolhido por sua simplicidade e foco em dashboards e aplicações de dados. Streamlit permite a construção rápida de interfaces web interativas diretamente em Python, sem necessidade de configuração complexa de front-end ou integração com APIs REST.
 
@@ -29,7 +26,6 @@ Embora React seja uma biblioteca poderosa para construção de interfaces web co
 * **Streamlit-AgGrid:** Tabelas interativas com funcionalidades avançadas.
 * **SessionState (ou st.session\_state):** Controle de estado entre interações.
 
----
 
 ## Estrutura do Projeto
 
@@ -56,7 +52,6 @@ Embora React seja uma biblioteca poderosa para construção de interfaces web co
 * **st.session\_state:** Controla dados persistentes entre interações, como filtros aplicados e dados carregados do backend.
 * **Callbacks e funções:** Cada interação do usuário (seleção de filtros, upload de arquivos) dispara funções que atualizam `st.session_state` e re-renderizam componentes.
 
----
 
 ## Interface do Usuário
 

@@ -6,12 +6,18 @@ description: "Estratégia de deploy e sistema de logs"
 
 # Deploy e Sistema de Logs
 
-## Introdução
 &ensp; Este documento detalha a estratégia de deploy da aplicação e o sistema de logs associado, apresentando práticas de containerização, integração contínua, monitoramento e manutenção. O objetivo é garantir que o ambiente de produção seja seguro, consistente e resiliente, permitindo que a aplicação opere de forma confiável e com mínima intervenção manual.
 
-## Estratégia de Deploy
+<p style={{textAlign: 'center'}}>Figura 1 - Arquitetura de Deploy</p>
 
-### Servidor Simples
+<div style={{margin: 25}}>
+    <div style={{textAlign: 'center'}}>
+        <img src={require("../../../static/img/deploy.png").default} style={{width: 800}} alt="Arquitetura de Deploy" />
+        <br />
+    </div>
+</div>
+
+## Estratégia de Deploy
 
 * O sistema será hospedado no **Vercel**, que oferece suporte nativo para aplicações web e APIs.
 * O Vercel já provê **CI/CD integrado ao GitHub**, permitindo deploy automático a cada merge na branch principal.
@@ -30,7 +36,6 @@ description: "Estratégia de deploy e sistema de logs"
   * Build de imagens Docker.
   * Deploy automático no Vercel após aprovação em branch principal.
 
----
 
 ## Configuração de Ambiente
 
@@ -46,8 +51,6 @@ description: "Estratégia de deploy e sistema de logs"
 * **Staging:** integração com APIs reais em modo de teste, monitoramento básico.
 * **Produção:** APIs reais, logging reduzido, segurança reforçada com proxy reverso.
 
----
-
 ## Monitoramento
 
 ### Métricas da Aplicação
@@ -61,7 +64,6 @@ description: "Estratégia de deploy e sistema de logs"
 * Health checks periódicos para backend e jobs, garantindo que serviços críticos estejam operacionais.
 * Alertas configuráveis via Grafana/Prometheus para downtime, falhas de ingestão ou divergências críticas.
 
----
 
 ## Manutenção
 
@@ -82,9 +84,6 @@ description: "Estratégia de deploy e sistema de logs"
 * Banco PostgreSQL hospedado no Supabase possui backup automático configurado, garantindo persistência e recuperação de dados.
 * Parquet armazenados no S3 permitem backup de dados intermediários e históricos para análise futura.
 
----
 
 ## Conclusões
 &ensp; A estratégia adotada combina containerização, CI/CD automatizado e monitoramento robusto, assegurando consistência entre ambientes, observabilidade completa do sistema e capacidade de resposta rápida a falhas. Com processos claros de manutenção, patches de segurança e backup de dados e configurações, a solução mantém alta disponibilidade, confiabilidade e segurança para operações contínuas.
-
-
