@@ -6,12 +6,9 @@ description: "Especificação da arquitetura do backend"
 
 # Arquitetura do Backend
 
-## Introdução
 &ensp; Este documento descreve a arquitetura do backend da aplicação, detalhando a tecnologia escolhida, a estrutura do projeto, os processos de processamento de dados e os serviços internos. O objetivo é apresentar como o backend foi projetado para garantir robustez, modularidade, segurança e integração eficiente com bancos de dados, APIs externas e o frontend, assegurando operações consistentes e escaláveis.
 
 ## Tecnologia Escolhida
-
-### Python Framework
 
 * **Python 3.11+** como linguagem principal.
 * **Django Framework** como base do backend, escolhida por sua maturidade, robustez, facilidade de integração com bancos de dados relacionais e suporte a arquitetura em camadas.
@@ -22,7 +19,6 @@ description: "Especificação da arquitetura do backend"
   * Integração com Celery para tarefas assíncronas, caso necessário.
   * Suporte a autenticação, permissões e segurança nativa.
 
----
 
 ## Estrutura do Projeto
 
@@ -65,7 +61,6 @@ Arquitetura em camadas para separar responsabilidades:
 * Controle de versão via **Git**, com branch principal (`main`) e ramificações para funcionalidades (`feature/*`).
 * Docker garante consistência do ambiente de desenvolvimento e produção.
 
----
 
 ## Processamento de Dados
 
@@ -95,8 +90,6 @@ Arquitetura em camadas para separar responsabilidades:
   * `ReportingService` – geração de relatórios diários (D-1) e mensais.
 * Armazenamento intermediário de DataFrames em **Parquet** no S3 para análise histórica.
 
----
 
 ## Conclusões
 &ensp; A arquitetura do backend, baseada em Django e Python, proporciona uma estrutura modular, segura e escalável, capaz de lidar com ingestão de dados, processamento e geração de relatórios de forma confiável. Com versionamento controlado, documentação automática e serviços internos bem definidos, a solução oferece uma base sólida para desenvolvimento contínuo, manutenção e expansão futura da aplicação.
-

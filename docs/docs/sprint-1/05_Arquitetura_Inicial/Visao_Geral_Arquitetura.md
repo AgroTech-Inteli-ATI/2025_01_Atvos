@@ -6,12 +6,20 @@ description: "Visão geral da arquitetura da solução"
 
 # Visão Geral da Arquitetura
 
-## Introdução
 &ensp; Este documento apresenta a visão geral da arquitetura da solução desenvolvida, detalhando seus componentes, fluxos de dados, tecnologias adotadas e princípios arquiteturais que orientaram as decisões técnicas. O objetivo é fornecer uma compreensão clara da estrutura do sistema, suas funcionalidades e justificativas para escolhas estratégicas, evidenciando como simplicidade, escalabilidade, manutenibilidade e segurança foram contempladas desde o planejamento.
 
-## Arquitetura de Alto Nível
+<p style={{textAlign: 'center'}}>Figura 1 - Visão Geral da Arquitetura</p>
 
-### Componentes Principais
+<div style={{margin: 25}}>
+    <div style={{textAlign: 'center'}}>
+        <img src={require("../../../static/img/backend.png").default} style={{width: 800}} alt="Visão Geral da Arquitetura" />
+        <br />
+    </div>
+</div>
+
+<p style={{textAlign: 'center'}}>Fonte: Os autores (2025)</p>
+
+## Arquitetura de Alto Nível
 
 * **Frontend:** Streamlit para dashboards, intereações com os documentos gerados e upload de novos arquivos.
 * **Backend:** Django, arquitetura em camadas (apps separados para telemetria, auditoria, relatórios e usuários).
@@ -37,7 +45,6 @@ description: "Visão geral da arquitetura da solução"
 * **Prometheus + Grafana** para monitoramento.
 * **Vercel** para deploy com CI/CD integrado ao GitHub.
 
----
 
 ## Princípios Arquiteturais
 
@@ -64,7 +71,6 @@ description: "Visão geral da arquitetura da solução"
 * Variáveis de ambiente para credenciais e tokens.
 * Banco e arquivos hospedados em provedores confiáveis (Supabase, AWS S3).
 
----
 
 ## Decisões Técnicas
 
@@ -88,6 +94,3 @@ description: "Visão geral da arquitetura da solução"
 
 ## Conclusões
 &ensp; A arquitetura proposta equilibra eficiência, modularidade e segurança, garantindo que a solução seja escalável, fácil de manter e capaz de evoluir conforme novas demandas surgirem. As decisões técnicas adotadas refletem um compromisso com produtividade, consistência de ambiente e integração contínua, proporcionando uma base sólida para desenvolvimento e operação confiável da aplicação.
-
----
-
