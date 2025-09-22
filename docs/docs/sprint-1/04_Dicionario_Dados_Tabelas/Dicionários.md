@@ -35,7 +35,7 @@ A planilha de gestão diária descreve os processos realizados diariamente para 
 
 <div align="center">
 <sub>Imagem 01: Gestão diária - transporte de integrantes.</sub>
-<img src={require("../../../static/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - GESTÃO DIÁRIA - TRANSPORTE DE INTEGRANTES.jpg").default} alt="Gestão diária - transporte de integrantes" />
+<img src={require("../../../static/img/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - GESTÃO DIÁRIA - TRANSPORTE DE INTEGRANTES.jpg").default} alt="Gestão diária - transporte de integrantes" />
 <sup>Fonte: Material produzido pela equipe, 2025.</sup>
 </div>
 
@@ -45,7 +45,7 @@ O dicionário de KM Caputado pela Telemetria resume as métricas presentes em to
 
 <div align="center">
 <sub>Imagem 02: KM capturado pela telemetria.</sub>
-<img src={require("../../../static/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - KM CAPTURADO PELA TELEMETRIA.jpg").default} alt="KM capturado pela telemetria" />
+<img src={require("../../../static/img/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - KM CAPTURADO PELA TELEMETRIA.jpg").default} alt="KM capturado pela telemetria" />
 <sup>Fonte: Material produzido pela equipe, 2025.</sup>
 </div>
 
@@ -55,7 +55,7 @@ A tabela de Km Diário Compilado trata sobre todas as atas de regristro de opera
 
 <div align="center">
 <sub>Imagem 03: KM diário compilado (100).</sub>
-<img src={require("../../../static/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - KM DIÁRIO COMPILADO 100.jpg").default} alt="KM diário compilado (100)" />
+<img src={require("../../../static/img/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - KM DIÁRIO COMPILADO 100.jpg").default} alt="KM diário compilado (100)" />
 <sup>Fonte: Material produzido pela equipe, 2025.</sup>
 </div>
 
@@ -65,7 +65,7 @@ A tabela de medição de Km por veículo administratito e industrial detalha a q
 
 <div align="center">
 <sub>Imagem 04: Medição de KM por veículo - administrativo/indústria (100).</sub>
-<img src={require("../../../static/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - MEDIÇÃO DE KM POR VEÍCULO - ADMINISTRATIVO - INDUSTRIA 100.jpg").default} alt="Medição de KM por veículo - administrativo/indústria (100)" />
+<img src={require("../../../static/img/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - MEDIÇÃO DE KM POR VEÍCULO - ADMINISTRATIVO - INDUSTRIA 100.jpg").default} alt="Medição de KM por veículo - administrativo/indústria (100)" />
 <sup>Fonte: Material produzido pela equipe, 2025.</sup>
 </div>
 
@@ -75,7 +75,7 @@ A tabela de medição de KM por veículo agricola faz o registro da quilometrage
 
 <div align="center">
 <sub>Imagem 05: Medição de KM por veículo - agrícola.</sub>
-<img src={require("../../../static/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - MEDIÇÃO DE KM POR VEÍCULO - AGRICOLA.jpg").default} alt="Medição de KM por veículo - agrícola" />
+<img src={require("../../../static/img/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - MEDIÇÃO DE KM POR VEÍCULO - AGRICOLA.jpg").default} alt="Medição de KM por veículo - agrícola" />
 <sup>Fonte: Material produzido pela equipe, 2025.</sup>
 </div>
 
@@ -85,7 +85,7 @@ A tabela de resumo da operação contem boa parte dos dados das tabelas anterior
 
 <div align="center">
 <sub>Imagem 06: Resumo da operação.</sub>
-<img src={require("../../../static/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - Resumo da Operação.jpg").default} alt="Resumo da operação" />
+<img src={require("../../../static/img/dicionario-dados/Dicionário de dados - Case Atvos - Dicionário - Resumo da Operação.jpg").default} alt="Resumo da operação" />
 <sup>Fonte: Material produzido pela equipe, 2025.</sup>
 </div>
 
