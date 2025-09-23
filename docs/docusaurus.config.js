@@ -15,11 +15,20 @@ const config = {
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  
+  stylesheets: [
+  'src/css/custom.css',
+  ],
+
 
   presets: [
     [
@@ -85,6 +94,7 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
     }),
+    
 };
 
 export default config;
