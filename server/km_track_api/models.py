@@ -12,28 +12,28 @@ class Vehicle(models.Model):
 class TelemetryRecord(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name="records")
     driver = models.CharField(max_length=100, blank=True, null=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(null=True, blank=True)
 
     # departure_place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True, related_name="departures")
-    departure_km = models.FloatField()
-    departure_time = models.DateTimeField()
+    departure_km = models.FloatField(null=True, blank=True)
+    departure_time = models.DateTimeField(null=True, blank=True)
     # arrival_place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True, related_name="arrivals")
-    arrival_km = models.FloatField()
-    arrival_time = models.DateTimeField()
-    total_time = models.DurationField()
-    total_km_traveled = models.FloatField()
-    max_speed_reached = models.FloatField()
-    people_transported = models.IntegerField()
+    arrival_km = models.FloatField(null=True, blank=True)
+    arrival_time = models.DateTimeField(null=True, blank=True)
+    total_time = models.DurationField(null=True, blank=True)
+    total_km_traveled = models.FloatField(null=True, blank=True)
+    max_speed_reached = models.FloatField(null=True, blank=True)
+    people_transported = models.IntegerField(null=True, blank=True)
     occupancy_rate = models.FloatField(null=True, blank=True, help_text="Occupancy rate (percentage)")
-    duration = models.DurationField()
-    idle_time = models.DurationField()
+    duration = models.DurationField(null=True, blank=True)
+    idle_time = models.DurationField(null=True, blank=True)
 
     SHIFT_CHOICES = [
         ('morning', 'Morning'),
         ('afternoon', 'Afternoon'),
         ('night', 'Night'),
     ]
-    shift = models.CharField(max_length=10, choices=SHIFT_CHOICES)
+    shift = models.CharField(max_length=10, choices=SHIFT_CHOICES, default='morning')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

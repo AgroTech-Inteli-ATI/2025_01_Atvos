@@ -17,7 +17,7 @@ def vehicle_list(request) -> HttpResponse:
 def telemetry_list(request) -> HttpResponse:
     records = TelemetryRecord.objects.select_related("vehicle").all()[:50]
     html = "<br>".join([
-        f"{r.vehicle.identifier} - {r.date} - {r.distance} km - {r.duration} running - {r.idle_time} idle"
+        f"{r.vehicle.identifier} - {r.date} - {r.total_km_traveled} km - {r.duration} running - {r.idle_time} idle"
         for r in records
     ])
     return HttpResponse(html)

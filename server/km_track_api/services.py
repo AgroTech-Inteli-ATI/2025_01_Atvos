@@ -39,7 +39,7 @@ def ingest_csv(filepath: str):
                 vehicle=vehicle,
                 date=row['Data'],
                 driver=row['Motorista'],
-                distance=float(str(row['Distância']).replace(',', '.')),
+                total_km_traveled=float(str(row['Distância']).replace(',', '.')),
                 duration=timedelta(hours=int(row['Tempo'].split(':')[0]), 
                                  minutes=int(row['Tempo'].split(':')[1])),
                 odometer=float(str(row['Hodômetro']).replace(',', '.'))

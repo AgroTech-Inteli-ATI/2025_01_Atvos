@@ -60,15 +60,15 @@ def ingest_csv(filepath: str):
                 driver = str(row[1]) if not pd.isna(row[1]) else None
                 date = datetime.strptime(date_str, "%d/%m/%Y")
                 duration = parse_duration(str(row[4])) if not pd.isna(row[4]) else timedelta()
-                distance = float(str(row[5]).replace(",", ".")) if not pd.isna(row[5]) else 0
+                total_km_traveled = float(str(row[5]).replace(",", ".")) if not pd.isna(row[5]) else 0
                 idle_time = parse_duration(str(row[12])) if len(row) > 12 and not pd.isna(row[12]) else timedelta()
 
                 record = TelemetryRecord.objects.create(
                     vehicle=vehicle,
                     driver=driver,
                     date=date,
-                    odometer=distance,
-                    distance=distance,
+                    odometer=total_km_traveled,
+                    total_km_traveled=total_km_traveled,
                     duration=duration,
                     idle_time=idle_time
                 )
