@@ -1,0 +1,28 @@
+{
+  "name": "2025_01_atvos",
+  "version": "1.0.0",
+  "description": "CASE 01 ATVOS 2025.2 - Automação de Km Variável para Transporte de Colaboradores",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgroTech-Inteli-ATI/2025_01_Atvos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AgroTech-Inteli-ATI/2025_01_Atvos/issues"
+  },
+  "homepage": "https://github.com/AgroTech-Inteli-ATI/2025_01_Atvos#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3"
+  }
+}
