@@ -1,8 +1,8 @@
 from django.urls import path
-from api import views
+from api import bigquery_views
 
 urlpatterns = [
-    path("api/inserir/", views.inserir_registro),
-    path("api/atualizar/", views.atualizar_registro),
-    path("api/remover/", views.remover_registro),
+    path("api/inserir/", bigquery_views.inserir_registro),
+    path("api/atualizar/", bigquery_views.atualizar_registro),
+    path("api/remover/", bigquery_views.remover_registro),
 ]

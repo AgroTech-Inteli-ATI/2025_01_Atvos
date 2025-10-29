@@ -24,9 +24,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = []
 
-ROOT_URLCONF = 'bigquery_api.urls'
+ROOT_URLCONF = 'api.urls'
 TEMPLATES = []
-WSGI_APPLICATION = 'bigquery_api.wsgi.application'
+WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
