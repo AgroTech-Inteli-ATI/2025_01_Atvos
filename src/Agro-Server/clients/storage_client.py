@@ -2,7 +2,7 @@
 import io
 import os
 from google.cloud import storage
-from bigquery_api import settings
+from api import settings
 
 
 class CloudStorageClient:

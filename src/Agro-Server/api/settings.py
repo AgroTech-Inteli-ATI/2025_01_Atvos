@@ -43,7 +43,7 @@ BIGQUERY_KEY_PATH = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 if not BIGQUERY_KEY_PATH:
     raise ValueError("A variável GOOGLE_APPLICATION_CREDENTIALS não está definida no .env")
 
-BIGQUERY_KEY_PATH = BASE_DIR / "bigquery_api"/"key.json"
+BIGQUERY_KEY_PATH = BASE_DIR / "clients"/"key.json"
 
 # 2. Define a variável de ambiente para o client do BigQuery
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = str(BIGQUERY_KEY_PATH)

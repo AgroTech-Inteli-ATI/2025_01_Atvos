@@ -2,7 +2,7 @@
 import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .storage_client import CloudStorageClient
+from clients.storage_client import CloudStorageClient
 
 client = CloudStorageClient()
 
@@ -32,6 +32,16 @@ def upload_arquivo(request):
 
 @csrf_exempt
 def remover_arquivo(request):
+    """
+    Essa rota é responsável por remover um arquivo no Bucket a partir de uma URL
+
+
+    Exemplo de json:
+
+    {
+        "blob_name": "raw/KM CAPTURADO PELA TELEMETRIA - 05 as 10h.jpg"
+    }
+    """
     if request.method != "POST":
         return JsonResponse({"erro": "Método não permitido"}, status=405)
 
@@ -51,6 +61,16 @@ def remover_arquivo(request):
 
 @csrf_exempt
 def download_arquivo(request):
+    """
+    Essa rota é responsável por conferir uma URL no Bucket e fazer o download do arquivo no Buffer
+
+
+    Exemplo de json:
+
+    {
+        "blob_name": "raw/KM CAPTURADO PELA TELEMETRIA - 05 as 10h.jpg"
+    }
+    """
     if request.method != "POST":
         return JsonResponse({"erro": "Método não permitido"}, status=405)
 

@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .bigquery_client import BigQueryClient
+from clients.bigquery_client import BigQueryClient
 
 client = BigQueryClient()  # instância única para todas as rotas
 
@@ -56,6 +56,16 @@ def atualizar_registro(request):
 
 @csrf_exempt
 def remover_registro(request):
+    """
+    Essa rota é responsável por remover dados em uma tabela "x" no BigQuery
+
+    Exemplo de JSON Para essa rota:
+    {
+        "table_id": "users",
+        "id": "u5555555-cccc-dddd-ffff-333333333333"
+    }
+
+    """
     if request.method != "POST":
         return JsonResponse({"erro": "Método não permitido"}, status=405)
     try:
