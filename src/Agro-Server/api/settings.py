@@ -53,6 +53,63 @@ BIGQUERY_PROJECT_ID = os.getenv("BIGQUERY_PROJECT_ID", "agro-data-476422")
 BIGQUERY_DATASET = os.getenv("BIGQUERY_DATASET", "agro-data")
 
 # ===========================
+# ETL Settings
+# ===========================
+ETL_OUTPUT_DIR = os.getenv("ETL_OUTPUT_DIR", BASE_DIR / "tmp" / "etl")
+ETL_BATCH_SIZE = int(os.getenv("ETL_BATCH_SIZE", "1000"))
+
+# ===========================
+# Cloud Storage settings
+# ===========================
+GCS_BUCKET = os.getenv("GCS_BUCKET", "agro-data-bucket")
+GCS_ETL_PREFIX = os.getenv("GCS_ETL_PREFIX", "etl/")
+
+# ===========================
+# Logging Configuration
+# ===========================
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs' / 'etl.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'etl': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'clients': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
+
+# Ensure logs directory exists
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)
+
+# ===========================
 # Client modularizado do BigQuery
 # ===========================
 def get_bigquery_client():
