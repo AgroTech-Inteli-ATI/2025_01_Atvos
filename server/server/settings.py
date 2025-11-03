@@ -32,10 +32,13 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'corsheaders',
+    'django_filters',
     
     # Local apps
     'users',
-    "km_track_api"
+    "km_track_api", 
+    "travels",
+    'dashboard'
 ]
 
 MIDDLEWARE = [
