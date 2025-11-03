@@ -1,7 +1,7 @@
 from django.db import models
 
 class Vehicle(models.Model):
-    plate = models.CharField(max_length=6, unique=True)
+    plate = models.CharField(max_length=6, unique=True, default='000000')
     identifier = models.IntegerField(unique=True)
     bus_type = models.CharField(max_length=50, null=True, blank=True, help_text="Type of bus (Ativo/Reserva)")
 
