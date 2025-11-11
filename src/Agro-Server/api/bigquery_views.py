@@ -2,8 +2,43 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from clients.bigquery_client import BigQueryClient
+from .etl_service import EtlService
+
 
 client = BigQueryClient()  # instância única para todas as rotas
+
+@csrf_exempt
+def processar_arquivo_raw(request):
+    """
+    Essa rota aciona o serviço de ETL para processar um arquivo bruto do Cloud Storage.
+    Espera um JSON com o nome do blob a ser processado.
+
+    Exemplo de JSON:
+    {
+        "blob_name": "raw/nome_do_arquivo.csv"
+    }
+    """
+    if request.method != "POST":
+        return JsonResponse({"erro": "Método não permitido"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        blob_name = data.get("blob_name")
+
+        if not blob_name:
+            return JsonResponse({"erro": "O campo 'blob_name' é obrigatório."}, status=400)
+
+        etl_service = EtlService()
+        resultado = etl_service.process_raw_file(blob_name)
+
+        if resultado["status"] == "error":
+            return JsonResponse(resultado, status=500)
+
+        return JsonResponse(resultado)
+
+    except Exception as e:
+        return JsonResponse({"erro": f"Erro inesperado na view: {e}"}, status=500)
+
 
 @csrf_exempt
 def inserir_registro(request):
