@@ -6,6 +6,8 @@ from . import units_views
 from . import occurrences_views
 from . import travels_views
 from . import dashboard_views
+from .bigquery_views import criar_view_diaria, criar_view_mensal, exportar_view
+
 
 urlpatterns = [
     # BigQuery genérico
@@ -35,4 +37,9 @@ urlpatterns = [
     # Dashboard
     path("api/dashboard/unit-summary/", dashboard_views.unit_summary, name="dashboard_unit_summary"),
     path("api/dashboard/occurrence-summary/", dashboard_views.occurrence_summary, name="dashboard_occurrence_summary"),
+
+    path('bigquery/view/diaria', criar_view_diaria, name='criar_view_diaria'),
+    path('bigquery/view/mensal', criar_view_mensal, name='criar_view_mensal'),
+    path('bigquery/view/exportar', exportar_view, name='exportar_view'),
+ 
 ]

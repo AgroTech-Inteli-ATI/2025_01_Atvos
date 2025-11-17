@@ -144,3 +144,16 @@ class BigQueryClient:
             rows.append(row_dict)
         
         return rows
+   
+
+    def execute_query(self, query):
+        """Executa uma query SQL no BigQuery"""
+        query = query.format(
+            project=self.project,
+            dataset=self.dataset
+        )
+        return self.client.query(query)
+
+    def query_to_dataframe(self, query):
+        """Executa uma query e retorna os resultados como DataFrame"""
+        return self.client.query(query).to_dataframe()
