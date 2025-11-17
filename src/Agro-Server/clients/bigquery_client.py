@@ -34,7 +34,20 @@ class BigQueryClient:
 
     def atualizar(self, row_id: str, updates: dict, table_id):
         """Atualiza registros da tabela por um campo id"""
-        set_expr = ", ".join([f"{k}='{v}'" for k, v in updates.items()])
+        set_parts = []
+        for k, v in updates.items():
+            if isinstance(v, (int, float)):
+                set_parts.append(f"{k} = {v}")
+            elif isinstance(v, bool):
+                set_parts.append(f"{k} = {str(v).upper()}")
+            elif v is None:
+                set_parts.append(f"{k} = NULL")
+            else:
+                # Escapa aspas simples em strings
+                v_escaped = str(v).replace("'", "\\'")
+                set_parts.append(f"{k} = '{v_escaped}'")
+        
+        set_expr = ", ".join(set_parts)
         query = f"""
         UPDATE `{self.table_ref(table_id)}`
         SET {set_expr}
@@ -53,3 +66,81 @@ class BigQueryClient:
         query_job = self.client.query(query)
         query_job.result()
         return {"status": "ok", "deleted_id": row_id}
+
+    def listar(self, table_id, limit=None, offset=0, order_by="id"):
+        """Lista todos os registros da tabela"""
+        query = f"SELECT * FROM `{self.table_ref(table_id)}`"
+        if order_by:
+            query += f" ORDER BY {order_by}"
+        if limit:
+            query += f" LIMIT {limit}"
+        if offset and offset > 0:
+            query += f" OFFSET {offset}"
+
+        query_job = self.client.query(query)
+        results = query_job.result()
+        
+        rows = []
+        for row in results:
+            row_dict = dict(row)
+            rows.append(row_dict)
+        
+        return rows
+
+    def buscar_por_id(self, table_id, row_id):
+        """Busca um registro por ID"""
+        query = f"""
+        SELECT * FROM `{self.table_ref(table_id)}`
+        WHERE id = '{row_id}'
+        LIMIT 1
+        """
+        query_job = self.client.query(query)
+        results = list(query_job.result())
+        
+        if not results:
+            return None
+        
+        return dict(results[0])
+
+    def filtrar(self, table_id, filters: dict, limit=None, offset=0, order_by="id"):
+        """Filtra registros por condições (ex: {"unit_id": "1"})"""
+        query = f"SELECT * FROM `{self.table_ref(table_id)}`"
+        
+        if filters:
+            conditions = []
+            for key, value in filters.items():
+                if isinstance(value, str):
+                    conditions.append(f"{key} = '{value}'")
+                else:
+                    conditions.append(f"{key} = {value}")
+            if conditions:
+                query += " WHERE " + " AND ".join(conditions)
+        
+        if order_by:
+            query += f" ORDER BY {order_by}"
+        if limit:
+            query += f" LIMIT {limit}"
+        if offset and offset > 0:
+            query += f" OFFSET {offset}"
+
+        query_job = self.client.query(query)
+        results = query_job.result()
+        
+        rows = []
+        for row in results:
+            row_dict = dict(row)
+            rows.append(row_dict)
+        
+        return rows
+
+    def executar_query(self, query: str):
+        """Executa uma query SQL customizada e retorna os resultados"""
+        query_job = self.client.query(query)
+        results = query_job.result()
+        
+        rows = []
+        for row in results:
+            row_dict = dict(row)
+            rows.append(row_dict)
+        
+        return rows
