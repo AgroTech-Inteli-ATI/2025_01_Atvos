@@ -25,6 +25,9 @@ description: "Descrição da arquitura do banco de dados"
 | `garage_name`       | string   | Nome da garagem de origem do ativo.                            | `"Teodoro Sampaio"`            |
 | `full_distance`     | decimal  | Distância total percorrida na viagem (km).                     | `10,94`                        |
 | `datetime`          | datetime | Data e hora da viagem no padrão ISO8601.                       | `2025-09-29T13:45:30-03:00`    |
+| `license_plate`     | string   | Placa do veículo.                                              | `ABC-1D23`                     |
+| `unit_id`           | FK (int) | Unidade operacional responsável.                               | `1`                            |
+| `occupancy_percentage` | decimal | Ocupação média na viagem (%).                                  | `90,00`                        |
 
 ---
 
@@ -80,6 +83,46 @@ description: "Descrição da arquitura do banco de dados"
 | `url`          | string   | Caminho no bucket do arquivo processado (Parquet). | `2025-10-13T09:20:50-07:00.parquet` |
 | `raw_layer_id` | FK (int) | Referência para os dados crus (`RAW_LAYER.id`).    | `10`                                |
 | `datetime`     | datetime | Data e hora de processamento/tratamento (ISO8601). | `2025-10-13T09:20:50-07:00`         |
+
+---
+
+### **Tabela: `UNIT`**
+
+&ensp; Unidades operacionais (ex.: UAT, USL).
+
+| Campo         | Tipo     | Descrição                         | Exemplo |
+| ------------- | -------- | --------------------------------- | ------- |
+| `id`          | PK (int) | Identificador único da unidade.   | `1`     |
+| `name`        | string   | Sigla/nome da unidade.            | `UAT`   |
+| `description` | string   | Descrição opcional da unidade.    | `...`   |
+
+---
+
+### **Tabela: `OCCURRENCE_CATEGORY`**
+
+&ensp; Categorias de ocorrências.
+
+| Campo | Tipo     | Descrição                     | Exemplo      |
+| ----- | -------- | ----------------------------- | ------------ |
+| `id`  | PK (int) | Identificador da categoria.   | `1`          |
+| `name`| string   | Nome da categoria.            | `Manutenção` |
+
+---
+
+### **Tabela: `OCCURRENCE`**
+
+&ensp; Registro de ocorrências relacionadas às viagens.
+
+| Campo        | Tipo     | Descrição                                      | Exemplo                 |
+| ------------ | -------- | ---------------------------------------------- | ----------------------- |
+| `id`         | PK (int) | Identificador da ocorrência.                   | `10`                    |
+| `travel_id`  | FK (int) | Referência para a viagem (`TRAVEL.id`).        | `1`                     |
+| `unit_id`    | FK (int) | Unidade da ocorrência (`UNIT.id`).             | `1`                     |
+| `carrier_name` | string | Transportadora relacionada.                    | `Sertran`               |
+| `category_id`| FK (int) | Categoria (`OCCURRENCE_CATEGORY.id`).          | `2`                     |
+| `root_cause` | text     | Causa raiz.                                    | `Falta de manutenção`   |
+| `description`| text     | Descrição detalhada.                           | `...`                   |
+| `datetime`   | datetime | Data/hora do evento (ISO8601).                 | `2025-09-29T16:30:00`   |
 
 ---
 
