@@ -2,11 +2,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
-from django.db.models import Sum, Count, Avg, F
-from django.db.models.functions import TruncDate, TruncMonth, TruncWeek
 from datetime import datetime, timedelta
+import traceback
 
-from travels.models import Travel, Bill
+from travels.bigquery_manager import BigQueryManager
 
 
 @api_view(['GET'])
@@ -14,87 +13,141 @@ def travel_summary(request):
     """
     Retorna resumo geral de viagens e custos.
     """
+    bq = BigQueryManager()
+    
     try:
         start_date = request.query_params.get('start_date')
         end_date = request.query_params.get('end_date')
         unit_id = request.query_params.get('unit_id')
+   
+        auto_calculated_dates = False
         
-        travels = Travel.objects.all()
-        bills = Bill.objects.all()
-        
-        if start_date:
+        if not start_date:
+            start_dt = timezone.now() - timedelta(days=30)
+            start_date_sql = start_dt.strftime('%Y-%m-%d %H:%M:%S')
+            auto_calculated_dates = True
+        else:
             try:
                 start_dt = datetime.fromisoformat(start_date.replace('Z', '+00:00'))
-                travels = travels.filter(datetime__gte=start_dt)
-                bills = bills.filter(datetime__gte=start_dt)
+                start_date_sql = start_dt.strftime('%Y-%m-%d %H:%M:%S')
             except ValueError:
                 return Response({
                     'success': False,
                     'error': {
                         'code': 'INVALID_DATE_FORMAT',
-                        'message': 'Formato de data inválido para start_date'
+                        'message': 'Formato de data inválido para start_date. Use ISO 8601 (ex: 2024-01-01T00:00:00Z)'
                     },
                     'timestamp': timezone.now().isoformat()
                 }, status=status.HTTP_400_BAD_REQUEST)
         
-        if end_date:
+        if not end_date:
+            end_dt = timezone.now()
+            end_date_sql = end_dt.strftime('%Y-%m-%d %H:%M:%S')
+            auto_calculated_dates = True
+        else:
             try:
                 end_dt = datetime.fromisoformat(end_date.replace('Z', '+00:00'))
-                travels = travels.filter(datetime__lte=end_dt)
-                bills = bills.filter(datetime__lte=end_dt)
+                end_date_sql = end_dt.strftime('%Y-%m-%d %H:%M:%S')
             except ValueError:
                 return Response({
                     'success': False,
                     'error': {
                         'code': 'INVALID_DATE_FORMAT',
-                        'message': 'Formato de data inválido para end_date'
+                        'message': 'Formato de data inválido para end_date. Use ISO 8601 (ex: 2024-12-31T23:59:59Z)'
                     },
                     'timestamp': timezone.now().isoformat()
                 }, status=status.HTTP_400_BAD_REQUEST)
         
+        unit_id_int = None
         if unit_id:
             try:
                 unit_id_int = int(unit_id)
-                travels = travels.filter(unit_id=unit_id_int)
-                bills = bills.filter(travel__unit_id=unit_id_int)
+                if unit_id_int < 1:
+                    raise ValueError
             except ValueError:
                 return Response({
                     'success': False,
                     'error': {
                         'code': 'INVALID_UNIT_ID',
-                        'message': 'ID de unidade inválido'
+                        'message': 'ID de unidade inválido. Deve ser um número inteiro positivo.'
                     },
                     'timestamp': timezone.now().isoformat()
                 }, status=status.HTTP_400_BAD_REQUEST)
         
-        travel_stats = travels.aggregate(
-            total_distance=Sum('full_distance'),
-            total_travels=Count('id'),
-            avg_distance=Avg('full_distance')
+        sql = f"""
+        WITH travel_data AS (
+            SELECT 
+                t.id,
+                t.full_distance,
+                t.datetime,
+                t.unit_id
+            FROM `{bq.get_table_id('travel')}` t
+            WHERE t.datetime >= TIMESTAMP('{start_date_sql}')
+              AND t.datetime <= TIMESTAMP('{end_date_sql}')
+        """
+        
+        if unit_id_int:
+            sql += f" AND t.unit_id = {unit_id_int}"
+        
+        sql += f"""
+        ),
+        bill_data AS (
+            SELECT
+                b.travel_id,
+                b.fix_cost,
+                b.variable_km,
+                b.datetime
+            FROM `{bq.get_table_id('bill')}` b
+            WHERE b.datetime >= TIMESTAMP('{start_date_sql}')
+              AND b.datetime <= TIMESTAMP('{end_date_sql}')
         )
+        SELECT
+            -- Estatísticas de Viagens
+            COALESCE(SUM(td.full_distance), 0) as total_distance,
+            COUNT(DISTINCT td.id) as total_travels,
+            COALESCE(AVG(td.full_distance), 0) as avg_distance,
+            
+            -- Estatísticas de Custos
+            COALESCE(SUM(bd.fix_cost + (bd.variable_km * td.full_distance)), 0) as total_cost,
+            COALESCE(AVG(bd.fix_cost + (bd.variable_km * td.full_distance)), 0) as avg_cost
+        FROM travel_data td
+        LEFT JOIN bill_data bd ON td.id = bd.travel_id
+        """
+        
+        results = bq.query(sql)
+        
+        if not results or len(results) == 0:
+            data = {
+                'total_distance_km': 0.0,
+                'total_cost': 0.0,
+                'total_travels': 0,
+                'avg_cost_per_travel': 0.0,
+                'avg_distance_per_travel': 0.0,
+            }
+        else:
+            row = results[0]
+            data = {
+                'total_distance_km': round(float(row['total_distance']), 2),
+                'total_cost': round(float(row['total_cost']), 2),
+                'total_travels': int(row['total_travels']),
+                'avg_cost_per_travel': round(float(row['avg_cost']), 2),
+                'avg_distance_per_travel': round(float(row['avg_distance']), 2),
+            }
 
-        cost_stats = bills.select_related('travel').annotate(
-            calculated_cost=F('fix_cost') + (F('variable_km') * F('travel__full_distance'))
-        ).aggregate(
-            total_cost=Sum('calculated_cost'),
-            avg_cost=Avg('calculated_cost')
-        )
-        
-        data = {
-            'total_distance_km': round(float(travel_stats['total_distance'] or 0), 2),
-            'total_cost': round(float(cost_stats['total_cost'] or 0), 2),
-            'total_travels': travel_stats['total_travels'],
-            'avg_cost_per_travel': round(float(cost_stats['avg_cost'] or 0), 2),
-            'avg_distance_per_travel': round(float(travel_stats['avg_distance'] or 0), 2),
-        }
-        
         filters_applied = {}
-        if start_date:
-            filters_applied['start_date'] = start_date
-        if end_date:
-            filters_applied['end_date'] = end_date
+        
+        if auto_calculated_dates:
+            filters_applied['date_range'] = 'last_30_days'
+            filters_applied['start_date_calculated'] = start_date_sql
+            filters_applied['end_date_calculated'] = end_date_sql
+        else:
+            if start_date:
+                filters_applied['start_date'] = start_date
+            if end_date:
+                filters_applied['end_date'] = end_date
+        
         if unit_id:
-            filters_applied['unit_id'] = unit_id
+            filters_applied['unit_id'] = unit_id_int
         
         if filters_applied:
             data['filters_applied'] = filters_applied
@@ -106,6 +159,7 @@ def travel_summary(request):
         })
         
     except Exception as e:
+        traceback.print_exc()
         return Response({
             'success': False,
             'error': {
@@ -121,6 +175,8 @@ def cost_evolution(request):
     """
     Retorna a evolução dos custos ao longo do tempo.
     """
+    bq = BigQueryManager()
+    
     try:
         period = request.query_params.get('period', 'month')
         start_date = request.query_params.get('start_date')
@@ -152,12 +208,11 @@ def cost_evolution(request):
                 'timestamp': timezone.now().isoformat()
             }, status=status.HTTP_400_BAD_REQUEST)
         
-        bills = Bill.objects.select_related('travel').all()
-        
+        start_date_sql = None
         if start_date:
             try:
                 start_dt = datetime.fromisoformat(start_date.replace('Z', '+00:00'))
-                bills = bills.filter(datetime__gte=start_dt)
+                start_date_sql = start_dt.strftime('%Y-%m-%d %H:%M:%S')
             except ValueError:
                 return Response({
                     'success': False,
@@ -174,12 +229,13 @@ def cost_evolution(request):
                 start_dt = timezone.now() - timedelta(weeks=limit_int)
             else:  
                 start_dt = timezone.now() - timedelta(days=limit_int * 30)
-            bills = bills.filter(datetime__gte=start_dt)
+            start_date_sql = start_dt.strftime('%Y-%m-%d %H:%M:%S')
         
+        end_date_sql = None
         if end_date:
             try:
                 end_dt = datetime.fromisoformat(end_date.replace('Z', '+00:00'))
-                bills = bills.filter(datetime__lte=end_dt)
+                end_date_sql = end_dt.strftime('%Y-%m-%d %H:%M:%S')
             except ValueError:
                 return Response({
                     'success': False,
@@ -190,10 +246,12 @@ def cost_evolution(request):
                     'timestamp': timezone.now().isoformat()
                 }, status=status.HTTP_400_BAD_REQUEST)
         
+        unit_id_int = None
         if unit_id:
             try:
                 unit_id_int = int(unit_id)
-                bills = bills.filter(travel__unit_id=unit_id_int)
+                if unit_id_int < 1:
+                    raise ValueError
             except ValueError:
                 return Response({
                     'success': False,
@@ -205,40 +263,70 @@ def cost_evolution(request):
                 }, status=status.HTTP_400_BAD_REQUEST)
         
         if period == 'day':
-            trunc_func = TruncDate
-            date_format = '%Y-%m-%d'
+            trunc_func = "DATE_TRUNC(datetime, DAY)"
+            format_func = "FORMAT_DATE('%Y-%m-%d', DATE_TRUNC(datetime, DAY))"
         elif period == 'week':
-            trunc_func = TruncWeek
-            date_format = '%Y-W%U'
-        else:  
-            trunc_func = TruncMonth
-            date_format = '%Y-%m'
+            trunc_func = "DATE_TRUNC(datetime, WEEK)"
+            format_func = "FORMAT_DATE('%Y-W%U', DATE_TRUNC(datetime, WEEK))"
+        else:
+            trunc_func = "DATE_TRUNC(datetime, MONTH)"
+            format_func = "FORMAT_DATE('%Y-%m', DATE_TRUNC(datetime, MONTH))"
         
-        bills_by_period = bills.annotate(
-            period_date=trunc_func('datetime'),
-            calculated_cost=F('fix_cost') + (F('variable_km') * F('travel__full_distance'))
-        ).values('period_date').annotate(
-            total_bills=Count('id'),
-            total_fix_cost=Sum('fix_cost'),
-            total_variable_cost=Sum(F('variable_km') * F('travel__full_distance')),
-            total_cost=Sum('calculated_cost'),
-            total_distance=Sum('travel__full_distance'),
-            avg_cost=Avg('calculated_cost')
-        ).order_by('period_date')[:limit_int]
+        sql = f"""
+        WITH bill_travel_data AS (
+            SELECT
+                b.id as bill_id,
+                b.travel_id,
+                b.fix_cost,
+                b.variable_km,
+                b.datetime,
+                t.full_distance,
+                t.unit_id,
+                (b.fix_cost + (b.variable_km * t.full_distance)) as calculated_cost
+            FROM `{bq.get_table_id('bill')}` b
+            INNER JOIN `{bq.get_table_id('travel')}` t ON b.travel_id = t.id
+            WHERE b.datetime >= TIMESTAMP('{start_date_sql}')
+              AND t.datetime >= TIMESTAMP('{start_date_sql}')
+        """
+        
+        if end_date_sql:
+            sql += f"""
+              AND b.datetime <= TIMESTAMP('{end_date_sql}')
+              AND t.datetime <= TIMESTAMP('{end_date_sql}')"""
+        
+        if unit_id_int:
+            sql += f" AND t.unit_id = {unit_id_int}"
+        
+        sql += f"""
+        )
+        SELECT
+            {trunc_func} as period_date,
+            {format_func} as period_formatted,
+            COUNT(bill_id) as total_bills,
+            SUM(fix_cost) as total_fix_cost,
+            SUM(variable_km * full_distance) as total_variable_cost,
+            SUM(calculated_cost) as total_cost,
+            SUM(full_distance) as total_distance,
+            AVG(calculated_cost) as avg_cost
+        FROM bill_travel_data
+        GROUP BY period_date, period_formatted
+        ORDER BY period_date ASC
+        LIMIT {limit_int}
+        """
+
+        results = bq.query(sql)
         
         evolution_data = []
-        for item in bills_by_period:
-            period_date = item['period_date']
-            
+        for row in results:
             evolution_data.append({
-                'period': period_date.strftime(date_format),
-                'period_full_date': period_date.isoformat(),
-                'total_cost': round(float(item['total_cost'] or 0), 2),
-                'fix_cost': round(float(item['total_fix_cost'] or 0), 2),
-                'variable_cost': round(float(item['total_variable_cost'] or 0), 2),
-                'total_distance_km': round(float(item['total_distance'] or 0), 2),
-                'total_bills': item['total_bills'],
-                'avg_cost': round(float(item['avg_cost'] or 0), 2)
+                'period': row['period_formatted'],
+                'period_full_date': row['period_date'].isoformat() if row['period_date'] else None,
+                'total_cost': round(float(row['total_cost'] or 0), 2),
+                'fix_cost': round(float(row['total_fix_cost'] or 0), 2),
+                'variable_cost': round(float(row['total_variable_cost'] or 0), 2),
+                'total_distance_km': round(float(row['total_distance'] or 0), 2),
+                'total_bills': int(row['total_bills']),
+                'avg_cost': round(float(row['avg_cost'] or 0), 2)
             })
         
         params_info = {
@@ -249,10 +337,14 @@ def cost_evolution(request):
         
         if start_date:
             params_info['start_date'] = start_date
+        elif start_date_sql:
+            params_info['start_date_calculated'] = start_date_sql
+            
         if end_date:
             params_info['end_date'] = end_date
+            
         if unit_id:
-            params_info['unit_id'] = unit_id
+            params_info['unit_id'] = unit_id_int
         
         return Response({
             'success': True,
@@ -262,6 +354,7 @@ def cost_evolution(request):
         })
         
     except Exception as e:
+        traceback.print_exc()
         return Response({
             'success': False,
             'error': {
