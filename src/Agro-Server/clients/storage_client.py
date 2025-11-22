@@ -1,9 +1,9 @@
 # api/storage_client.py
 import io
-import os
-from google.cloud import storage
-from api import settings
 import json
+import os
+
+from google.cloud import storage  # type: ignore
 
 
 class CloudStorageClient:
