@@ -58,3 +58,13 @@ class CloudStorageClient:
         blob.download_to_file(buffer)
         buffer.seek(0)  # volta o ponteiro ao início
         return buffer.read()
+
+    def upload_file(self, source_path: str, destination_blob: str):
+        """
+        Faz upload de um arquivo local para o bucket.
+        :param source_path: Caminho do arquivo local
+        :param destination_blob: Caminho destino no bucket
+        """
+        blob = self.bucket.blob(destination_blob)
+        blob.upload_from_filename(source_path)
+        return f"gs://{self.bucket_name}/{destination_blob}"
