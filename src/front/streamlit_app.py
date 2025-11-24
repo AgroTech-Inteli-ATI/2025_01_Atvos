@@ -32,177 +32,177 @@ MOCK_UNITS = [
     {"id": 3, "name": "Centro Logístico", "description": "Hub de distribuição"},
 ]
 
-MOCK_TRAVELS = [
+MOCK_TRAVEL_TEMPLATES = [
     {
         "id": "T-101",
-        "datetime": "2024-11-05T08:30:00",
+        "days_ago": 3,
+        "time": "08:30",
         "license_plate": "ABC1D23",
         "asset_description": "Caminhão Graneleiro",
         "register_number": "REG-001",
         "garage_name": "Base Norte",
-        "full_distance": 186.4,
-        "unit_id": "1",
+        "full_distance": 198.4,
+        "unit_id": 1,
         "unit_name": "Fazenda Norte",
-        "bill.total_cost": 3120.55,
-        "total_cost": 3120.55,
+        "total_cost": 3365.55,
     },
     {
         "id": "T-102",
-        "datetime": "2024-11-12T06:45:00",
+        "days_ago": 9,
+        "time": "06:45",
         "license_plate": "DEF2G34",
         "asset_description": "Carreta Granel",
         "register_number": "REG-002",
         "garage_name": "Base Norte",
         "full_distance": 142.7,
-        "unit_id": "1",
+        "unit_id": 1,
         "unit_name": "Fazenda Norte",
-        "bill.total_cost": 2540.10,
         "total_cost": 2540.10,
     },
     {
         "id": "T-201",
-        "datetime": "2024-10-28T09:10:00",
+        "days_ago": 15,
+        "time": "09:10",
         "license_plate": "GHI3J45",
         "asset_description": "Caminhão Tanque",
         "register_number": "REG-010",
         "garage_name": "Base Sul",
         "full_distance": 205.3,
-        "unit_id": "2",
+        "unit_id": 2,
         "unit_name": "Fazenda Sul",
-        "bill.total_cost": 3387.80,
         "total_cost": 3387.80,
     },
     {
         "id": "T-202",
-        "datetime": "2024-11-18T13:20:00",
+        "days_ago": 24,
+        "time": "13:20",
         "license_plate": "JKL4M56",
         "asset_description": "Bitrem",
         "register_number": "REG-011",
         "garage_name": "Base Sul",
         "full_distance": 167.9,
-        "unit_id": "2",
+        "unit_id": 2,
         "unit_name": "Fazenda Sul",
-        "bill.total_cost": 2895.60,
         "total_cost": 2895.60,
     },
     {
         "id": "T-301",
-        "datetime": "2024-11-02T07:55:00",
+        "days_ago": 28,
+        "time": "07:55",
         "license_plate": "MNO5P67",
         "asset_description": "Caminhão Baú",
         "register_number": "REG-020",
         "garage_name": "Centro Oeste",
         "full_distance": 123.4,
-        "unit_id": "3",
+        "unit_id": 3,
         "unit_name": "Centro Logístico",
-        "bill.total_cost": 2150.90,
         "total_cost": 2150.90,
     },
     {
         "id": "T-302",
-        "datetime": "2024-11-21T11:15:00",
+        "days_ago": 38,
+        "time": "11:15",
         "license_plate": "PQR6S78",
         "asset_description": "Prancha",
         "register_number": "REG-021",
         "garage_name": "Centro Oeste",
         "full_distance": 198.6,
-        "unit_id": "3",
+        "unit_id": 3,
         "unit_name": "Centro Logístico",
-        "bill.total_cost": 3625.45,
         "total_cost": 3625.45,
     },
     {
         "id": "T-303",
-        "datetime": "2024-09-28T05:40:00",
+        "days_ago": 52,
+        "time": "05:40",
         "license_plate": "STU7V89",
         "asset_description": "Truck",
         "register_number": "REG-022",
         "garage_name": "Centro Oeste",
         "full_distance": 98.2,
-        "unit_id": "3",
+        "unit_id": 3,
         "unit_name": "Centro Logístico",
-        "bill.total_cost": 1740.30,
         "total_cost": 1740.30,
     },
     {
         "id": "T-304",
-        "datetime": "2024-11-23T15:05:00",
+        "days_ago": 64,
+        "time": "15:05",
         "license_plate": "VWX8Y90",
         "asset_description": "Caminhão Caçamba",
         "register_number": "REG-023",
         "garage_name": "Centro Oeste",
         "full_distance": 210.8,
-        "unit_id": "3",
+        "unit_id": 3,
         "unit_name": "Centro Logístico",
-        "bill.total_cost": 3755.15,
         "total_cost": 3755.15,
     },
 ]
 
-MOCK_BILLS = [
+MOCK_BILL_TEMPLATES = [
     {
         "id": "B-101",
         "travel_id": "T-101",
-        "fix_cost": 1450.00,
-        "variable_km": 9.00,
-        "datetime": "2024-11-05T20:15:00",
-        "total_cost": 3120.55,
+        "days_ago": 2,
+        "time": "20:15",
+        "fix_cost": 1550.00,
+        "variable_km": 9.15,
     },
     {
         "id": "B-102",
         "travel_id": "T-102",
+        "days_ago": 8,
+        "time": "18:40",
         "fix_cost": 1350.00,
         "variable_km": 8.35,
-        "datetime": "2024-11-12T18:40:00",
-        "total_cost": 2540.10,
     },
     {
         "id": "B-201",
         "travel_id": "T-201",
+        "days_ago": 14,
+        "time": "21:00",
         "fix_cost": 1525.00,
         "variable_km": 9.12,
-        "datetime": "2024-10-28T21:00:00",
-        "total_cost": 3387.80,
     },
     {
         "id": "B-202",
         "travel_id": "T-202",
+        "days_ago": 23,
+        "time": "22:10",
         "fix_cost": 1400.00,
         "variable_km": 8.90,
-        "datetime": "2024-11-18T22:10:00",
-        "total_cost": 2895.60,
     },
     {
         "id": "B-301",
         "travel_id": "T-301",
+        "days_ago": 27,
+        "time": "17:30",
         "fix_cost": 1200.00,
         "variable_km": 7.70,
-        "datetime": "2024-11-02T17:30:00",
-        "total_cost": 2150.90,
     },
     {
         "id": "B-302",
         "travel_id": "T-302",
+        "days_ago": 37,
+        "time": "23:00",
         "fix_cost": 1500.00,
         "variable_km": 10.70,
-        "datetime": "2024-11-21T23:00:00",
-        "total_cost": 3625.45,
     },
     {
         "id": "B-303",
         "travel_id": "T-303",
+        "days_ago": 51,
+        "time": "12:45",
         "fix_cost": 1100.00,
         "variable_km": 6.50,
-        "datetime": "2024-09-28T12:45:00",
-        "total_cost": 1740.30,
     },
     {
         "id": "B-304",
         "travel_id": "T-304",
+        "days_ago": 63,
+        "time": "23:40",
         "fix_cost": 1550.00,
         "variable_km": 10.50,
-        "datetime": "2024-11-23T23:40:00",
-        "total_cost": 3755.15,
     },
 ]
 
@@ -211,45 +211,79 @@ def get_mock_units_df() -> pd.DataFrame:
     return pd.DataFrame(MOCK_UNITS)
 
 
+def _mock_datetime(days_ago: int, time_str: str, reference: date) -> datetime:
+    hour, minute = [int(part) for part in time_str.split(":")]
+    anchor = datetime.combine(reference, time(hour=hour, minute=minute))
+    return anchor - timedelta(days=days_ago)
+
+
 def get_mock_travels_df(
     unit_id: Optional[str],
     start_date: date,
     end_date: date,
     limit: int,
 ) -> pd.DataFrame:
-    df = pd.DataFrame(MOCK_TRAVELS)
-    if df.empty:
-        return df
+    records = []
+    for template in MOCK_TRAVEL_TEMPLATES:
+        travel_dt = _mock_datetime(template["days_ago"], template["time"], end_date)
+        if not (start_date <= travel_dt.date() <= end_date):
+            continue
+        if unit_id is not None and str(template["unit_id"]) != str(unit_id):
+            continue
 
-    df["datetime"] = pd.to_datetime(df["datetime"], errors="coerce")
-    df = df.dropna(subset=["datetime"])
+        record = {
+            "id": template["id"],
+            "datetime": travel_dt.isoformat(),
+            "license_plate": template["license_plate"],
+            "asset_description": template["asset_description"],
+            "register_number": template["register_number"],
+            "garage_name": template["garage_name"],
+            "full_distance": template["full_distance"],
+            "unit_id": str(template["unit_id"]),
+            "unit_name": template["unit_name"],
+            "bill.total_cost": template["total_cost"],
+            "total_cost": template["total_cost"],
+        }
+        records.append(record)
 
-    start_dt = datetime.combine(start_date, time.min)
-    end_dt = datetime.combine(end_date, time.max)
+    if not records:
+        return pd.DataFrame()
 
-    mask = (df["datetime"] >= start_dt) & (df["datetime"] <= end_dt)
-    if unit_id is not None:
-        mask &= df["unit_id"].astype(str) == str(unit_id)
-
-    filtered = df.loc[mask].sort_values("datetime", ascending=False)
-
+    records.sort(key=lambda item: item["datetime"], reverse=True)
     if limit:
-        filtered = filtered.head(limit)
+        records = records[:limit]
 
-    filtered = filtered.copy()
-    filtered["datetime"] = filtered["datetime"].dt.strftime("%Y-%m-%dT%H:%M:%S")
-    return filtered.reset_index(drop=True)
+    return pd.DataFrame(records)
 
 
-def get_mock_bills_df(travel_ids: Iterable[Any]) -> pd.DataFrame:
-    df = pd.DataFrame(MOCK_BILLS)
-    if df.empty:
-        return df
-
+def get_mock_bills_df(travel_ids: Iterable[Any], end_date: date) -> pd.DataFrame:
     ids = {str(tid) for tid in travel_ids if tid is not None}
-    if ids:
-        df = df[df["travel_id"].astype(str).isin(ids)]
-    return df.reset_index(drop=True)
+    records = []
+    for template in MOCK_BILL_TEMPLATES:
+        if template["travel_id"] not in ids and ids:
+            continue
+        bill_dt = _mock_datetime(template["days_ago"], template["time"], end_date)
+        record = {
+            "id": template["id"],
+            "travel_id": template["travel_id"],
+            "datetime": bill_dt.isoformat(),
+            "fix_cost": template["fix_cost"],
+            "variable_km": template["variable_km"],
+        }
+        records.append(record)
+
+    if not records:
+        return pd.DataFrame()
+
+    for record in records:
+        linked_travel = next((t for t in MOCK_TRAVEL_TEMPLATES if t["id"] == record["travel_id"]), None)
+        if linked_travel:
+            distance = linked_travel["full_distance"]
+            record["total_cost"] = record["fix_cost"] + record["variable_km"] * distance
+        else:
+            record["total_cost"] = record["fix_cost"]
+
+    return pd.DataFrame(records)
 
 
 def build_mock_summary(travels_df: pd.DataFrame) -> Dict[str, float]:
@@ -871,7 +905,7 @@ def main() -> None:
         summary_data = build_mock_summary(travels_df)
         cost_payload = build_mock_cost_payload(travels_df, period, period_limit)
         if not travels_df.empty and "id" in travels_df.columns:
-            bills_df = get_mock_bills_df(travels_df["id"].tolist())
+            bills_df = get_mock_bills_df(travels_df["id"].tolist(), end_date)
     else:
         summary_payload = call_api(base_url, "dashboard/travel-summary/", summary_params, token)
         cost_params = {**summary_params, "period": period, "limit": period_limit}
