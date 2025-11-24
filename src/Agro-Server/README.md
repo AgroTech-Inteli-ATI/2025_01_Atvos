@@ -1,70 +1,252 @@
-1. Visão Geral
+# 🧩 **Documentação da API – Agro-Server**
+
+## 📘 **Visão Geral**
+
+O **Agro-Server** é uma API desenvolvida em **Django** com o objetivo de oferecer uma interface modularizada para manipulação de dados no **Google BigQuery** e no **Google Cloud Storage**.
+A API implementa métodos padronizados para:
+
+* **Inserir** registros
+* **Atualizar** registros
+* **Remover** registros
+* **Fazer download** de arquivos
+
+Essas funcionalidades permitem integrar sistemas agrícolas com infraestrutura em nuvem de forma escalável e segura.
+
+---
+
+## ⚙️ **Arquitetura e Estrutura de Pastas**
+
+```
+Agro-Server/
+│
+├── api/
+│   ├── bigquery_views.py      # Endpoints relacionados ao BigQuery
+│   ├── storage_views.py       # Endpoints relacionados ao Cloud Storage
+│   ├── settings.py            # Configurações do Django (importa variáveis do .env)
+│   ├── urls.py                # Definição das rotas da API
+│   └── wsgi.py                # Ponto de entrada do servidor Django
+│
+├── clients/
+│   ├── bigquery_client.py     # Cliente responsável por se conectar e manipular dados no BigQuery
+│   ├── storage_client.py      # Cliente responsável por se conectar ao Cloud Storage
+│   └── key.json               # Credenciais de acesso do Google Cloud
+│
+├── manage.py                  # Comando administrativo do Django
+├── .env                       # Variáveis de ambiente (configurações e chaves)
+├── db.sqlite3                 # Banco de dados local do Django
+├── requirements.txt           # Dependências do projeto
+└── venv/                      # Ambiente virtual Python
+```
+
+---
+
+## ☁️ **Serviços Utilizados**
+
+### 🟢 **Google BigQuery**
+
+O **BigQuery** é o *Data Warehouse* do Google Cloud voltado para análises em larga escala.
+Ele permite **armazenar e consultar grandes volumes de dados usando SQL**, com alta performance e escalabilidade.
+
+Nesta API, o BigQuery é utilizado para:
+
+* Inserir novos registros em tabelas específicas
+* Atualizar registros existentes
+* Remover registros
+* Executar consultas e retornar dados para o cliente
+
+> O módulo responsável é `clients/bigquery_client.py`
+> As rotas estão em `api/bigquery_views.py`
+
+---
+
+### 🟣 **Google Cloud Storage**
+
+O **Cloud Storage** é o serviço de **armazenamento de objetos** (blobs) do Google Cloud.
+Permite salvar e gerenciar arquivos como imagens, documentos e dados de backup.
+
+Nesta API, o Cloud Storage é utilizado para:
+
+* Fazer **upload** de arquivos locais para buckets na nuvem
+* Fazer **download** de arquivos armazenados
+* **Remover** arquivos de buckets
+
+> O módulo responsável é `clients/storage_client.py`
+> As rotas estão em `api/storage_views.py`
+
+---
+
+## 🧠 **Rotas Disponíveis**
+
+### 📊 **BigQuery**
+
+| Método HTTP | Endpoint               | Função                            |
+| ----------- | ---------------------- | --------------------------------- |
+| `POST`      | `/bigquery/inserir/`   | Insere um novo registro na tabela |
+| `PUT`       | `/bigquery/atualizar/` | Atualiza dados existentes         |
+| `DELETE`    | `/bigquery/remover/`   | Remove um registro da tabela      |
+| `GET`       | `/bigquery/download/`  | Exporta dados do BigQuery         |
+
+---
+
+### 📦 **Cloud Storage**
+
+| Método HTTP | Endpoint             | Função                                |
+| ----------- | -------------------- | ------------------------------------- |
+| `POST`      | `/storage/inserir/`  | Faz upload de um arquivo local        |
+| `DELETE`    | `/storage/remover/`  | Remove um arquivo de um bucket        |
+| `GET`       | `/storage/download/` | Faz o download de um arquivo da nuvem |
+
+---
+
+## 🔐 **Configurações e Credenciais**
+
+As credenciais de acesso (`key.json`) e as variáveis de ambiente (`.env`) estão disponíveis **no grupo do WhatsApp da ATVOS**.
+Esses arquivos devem ser colocados nas seguintes localizações:
+
+```
+/Agro-Server/clients/key.json
+/Agro-Server/.env
+```
+
+O arquivo `.env` contém informações como:
+
+```
+GOOGLE_APPLICATION_CREDENTIALS=clients/key.json
+BIGQUERY_PROJECT_ID=nome-do-projeto
+STORAGE_BUCKET_NAME=nome-do-bucket
+DJANGO_SECRET_KEY=chave_django
+DEBUG=True
+```
+
+---
+
+## 🧩 **Ambiente Virtual (venv)**
+
+O uso do **venv** garante que todas as dependências do projeto fiquem isoladas do sistema operacional.
+
+### 1️⃣ Criar o ambiente virtual
+
+```bash
+python -m venv venv
+```
+
+### 2️⃣ Ativar o ambiente
+
+* **Linux/macOS:**
+
+  ```bash
+  source venv/bin/activate
+  ```
+* **Windows:**
+
+  ```bash
+  venv\Scripts\activate
+  ```
+
+### 3️⃣ Instalar as dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Rodar o servidor Django
+
+```bash
+python manage.py runserver
+```
+
+---
+
+## 🧠 **Fluxo de Funcionamento**
+
+1. O usuário envia uma requisição HTTP para uma das rotas (`/bigquery/...` ou `/storage/...`).
+2. A view correspondente (`bigquery_views.py` ou `storage_views.py`) valida os dados recebidos.
+3. A view utiliza o cliente apropriado (`bigquery_client.py` ou `storage_client.py`) para interagir com o Google Cloud.
+4. O cliente usa as credenciais em `key.json` e as variáveis do `.env` para autenticar a operação.
+5. A resposta (sucesso ou erro) é retornada em formato JSON para o usuário.
+
+---
+
+## 🧾 **Requisitos do Sistema**
+
+* **Python 3.10+**
+* **Django 5+**
+* **google-cloud-bigquery**
+* **google-cloud-storage**
+* **python-dotenv**
+
+> Todas as dependências estão listadas no arquivo `requirements.txt`.
+
+---
+## ETL
+ ### Visão Geral
 
   O Agro-Server é um backend construído com Django, projetado para gerenciar e processar dados de viagens. Seu principal componente é um pipeline de ETL (Extração, Transformação e
   Carga) que coleta dados do ambiente local, os processa e os carrega no Google BigQuery para análise.
 
   Este documento serve como um guia completo para configurar, executar e entender a arquitetura do projeto.
 
-  2. Estrutura do Projeto
+ ### Estrutura do Projeto
 
   Entender a organização dos arquivos é fundamental para trabalhar no projeto:
 
-    1 /
-    2 ├── api/                  # App Django principal
-    3 │   ├── migrations/       # Migrações do banco de dados
-    4 │   ├── management/       # Comandos de gerenciamento customizados
-    5 │   │   └── commands/
-    6 │   │       └── run_etl.py  # Orquestrador do pipeline ETL
-    7 │   ├── models.py         # Modelos de dados do Django (ex: Viagem)
-    8 │   ├── settings.py       # Configurações do Django
-    9 │   └── urls.py           # Rotas da API
-   10 ├── clients/              # Clientes para serviços externos
-   11 │   ├── __init__.py       # Inicializa e exporta os clientes
-   12 │   ├── bigquery_client.py# Cliente para interagir com o Google BigQuery
-   13 │   ├── storage_client.py # Cliente para interagir com o Google Cloud Storage
-   14 │   └── etl/              # Módulos específicos do ETL
-   15 │       ├── extractor.py    # Lógica de extração de dados
-   16 │       ├── transformer.py  # Lógica de transformação de dados
-   17 │       ├── loader.py       # Lógica de carregamento de dados
-   18 │       └── auditor.py      # Lógica de auditoria dos dados
-   19 ├── logs/                 # Diretório para arquivos de log
-   20 │   └── etl.log           # Log das execuções do ETL
-   21 ├── .env                  # Arquivo para variáveis de ambiente (NÃO versionado)
-   22 ├── manage.py             # Utilitário de linha de comando do Django
-   23 └── requirements.txt      # Lista de dependências Python
-
-  3. Configuração do Ambiente de Desenvolvimento
+```
+  1 /
+  2 ├── api/                  # App Django principal
+  3 │   ├── migrations/       # Migrações do banco de dados
+  4 │   ├── management/       # Comandos de gerenciamento customizados
+  5 │   │   └── commands/
+  6 │   │       └── run_etl.py  # Orquestrador do pipeline ETL
+  7 │   ├── models.py         # Modelos de dados do Django (ex: Viagem)
+  8 │   ├── settings.py       # Configurações do Django
+  9 │   └── urls.py           # Rotas da API
+ 10 ├── clients/              # Clientes para serviços externos
+ 11 │   ├── __init__.py       # Inicializa e exporta os clientes
+ 12 │   ├── bigquery_client.py# Cliente para interagir com o Google BigQuery
+ 13 │   ├── storage_client.py # Cliente para interagir com o Google Cloud Storage
+ 14 │   └── etl/              # Módulos específicos do ETL
+ 15 │       ├── extractor.py    # Lógica de extração de dados
+ 16 │       ├── transformer.py  # Lógica de transformação de dados
+ 17 │       ├── loader.py       # Lógica de carregamento de dados
+ 18 │       └── auditor.py      # Lógica de auditoria dos dados
+ 19 ├── logs/                 # Diretório para arquivos de log
+ 20 │   └── etl.log           # Log das execuções do ETL
+ 21 ├── .env                  # Arquivo para variáveis de ambiente (NÃO versionado)
+ 22 ├── manage.py             # Utilitário de linha de comando do Django
+ 23 └── requirements.txt      # Lista de dependências Python
+```
+  ### Configuração do Ambiente de Desenvolvimento
 
   Siga estes passos para configurar o ambiente localmente.
 
-  3.1. Pré-requisitos
+  1. Pré-requisitos
 
    - Python 3.10 ou superior.
    - Acesso a um projeto no Google Cloud com BigQuery e Cloud Storage ativados.
    - Uma conta de serviço do Google Cloud com permissões de acesso (BigQuery Data Editor, Storage Object Admin) e o arquivo de credenciais JSON.
 
-  3.2. Ambiente Virtual (venv)
+  2. Ambiente Virtual (venv)
 
   É uma boa prática isolar as dependências do projeto.
 
-   1. Crie o ambiente virtual:
+   2.1. Crie o ambiente virtual:
       No diretório raiz do projeto, execute:
-   1     python3 -m venv .venv
+        python3 -m venv .venv
 
-   2. Ative o ambiente virtual:
+   2.2. Ative o ambiente virtual:
        - No Linux/macOS:
-   1         source .venv/bin/activate
+            source .venv/bin/activate
        - No Windows:
-   1         .venv\Scripts\activate
+            .venv\Scripts\activate
       Após a ativação, seu terminal deve exibir (.venv) no início da linha.
 
-  3.3. Instalação de Dependências
+  ### Instalação de Dependências
 
   Com o ambiente virtual ativado, instale todas as bibliotecas necessárias:
 
    1 pip install -r requirements.txt
 
-  3.4. Variáveis de Ambiente (.env)
+  ### Variáveis de Ambiente (.env)
 
   Crie um arquivo chamado .env na raiz do projeto. Este arquivo armazena configurações sensíveis e específicas do seu ambiente.
 
@@ -92,7 +274,7 @@
    - BIGQUERY_DATASET_NAME: O nome do dataset (conjunto de dados) no BigQuery onde a tabela viagens_cleaned será criada.
    - CLOUD_STORAGE_BUCKET: O nome do bucket no Google Cloud Storage que será usado como área de preparação (staging) para os arquivos CSV.
 
-  3.5. Migrações do Banco de Dados
+  ### Migrações do Banco de Dados
 
   O projeto usa um banco de dados SQLite local para armazenar os dados antes do ETL. Para criar as tabelas necessárias, execute:
 
@@ -102,19 +284,19 @@
    4 # Aplica as migrações ao banco de dados
    5 python3 manage.py migrate
 
-  4. Executando o Pipeline ETL
+  ### Executando o Pipeline ETL
 
   O coração do projeto é o comando run_etl.
 
-  4.1. Como Executar
+  ### Como Executar
 
   Para iniciar o pipeline completo, execute o seguinte comando no seu terminal (com o venv ativado):
 
-   1 python3 manage.py run_etl
+   python3 manage.py run_etl
 
   O comando irá executar todas as etapas do ETL em sequência e registrará o progresso no terminal e no arquivo logs/etl.log.
 
-  4.2. Funcionamento Detalhado do ETL
+  ### Funcionamento Detalhado do ETL
 
   O pipeline é orquestrado pelo arquivo api/management/commands/run_etl.py e dividido em quatro etapas principais:
 
@@ -164,3 +346,8 @@
   O servidor estará acessível em http://127.0.0.1:8000/.
 
   ---
+
+## ✉️ **Contato**
+
+Em caso de dúvidas sobre configuração ou chaves de acesso, entre em contato pelo grupo da **ATVOS no WhatsApp**, onde estão disponíveis o `.env` e o `key.json`.
+
