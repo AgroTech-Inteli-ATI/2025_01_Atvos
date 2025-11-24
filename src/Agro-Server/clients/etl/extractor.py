@@ -4,7 +4,7 @@ from django.apps import apps
 
 logger = logging.getLogger(__name__)
 
-def extract_data(model_app='app1', model_name='Viagem'):
+def extract_data(model_app='api', model_name='Viagem'):
     Viagem = apps.get_model(model_app, model_name)
     qs = Viagem.objects.all().iterator()
     records = []

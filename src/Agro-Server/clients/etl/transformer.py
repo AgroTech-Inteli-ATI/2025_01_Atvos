@@ -5,11 +5,19 @@ import logging
 logger = logging.getLogger(__name__)
 
 def transform_data(df):
+    if df.empty:
+        logger.info("DataFrame de entrada está vazio. Nenhuma transformação será aplicada.")
+        return df
+
     df = df.drop_duplicates(subset=['id'])
     df['odometro_inicio'] = pd.to_numeric(df['odometro_inicio'], errors='coerce')
     df['odometro_fim'] = pd.to_numeric(df['odometro_fim'], errors='coerce')
     df['km_variavel'] = df['odometro_fim'] - df['odometro_inicio']
     df['km_variavel'] = df['km_variavel'].where(df['km_variavel'] >= 0, np.nan)
+    
+    # Adiciona a coluna km_esperado, que é usada na auditoria
+    df['km_esperado'] = df['km_variavel'] * 1.05 
+
     df['custos_consolidados'] = df['custos_fixos'] + df['custos_variaveis']
     logger.info("Transformed data with %d records", len(df))
     return df

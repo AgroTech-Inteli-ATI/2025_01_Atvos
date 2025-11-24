@@ -46,11 +46,17 @@ class Command(BaseCommand):
             end_time = timezone.now()
             duration = end_time - start_time
             
+            # Verifica se o DataFrame de auditoria não está vazio antes de contar as inconsistências
+            if not audit_results.empty:
+                inconsistencias_count = len(audit_results[audit_results["flag_divergencia"]])
+            else:
+                inconsistencias_count = 0
+
             self.stdout.write(self.style.SUCCESS(
                 f'''
                 ETL concluído com sucesso!
                 - Registros processados: {len(transformed_data)}
-                - Inconsistências encontradas: {len(audit_results[audit_results["flag_divergencia"]])}
+                - Inconsistências encontradas: {inconsistencias_count}
                 - Arquivo GCS: {gcs_uri}
                 - Tempo total: {duration.total_seconds():.2f}s
                 '''
