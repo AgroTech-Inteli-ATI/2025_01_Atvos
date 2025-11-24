@@ -28,3 +28,4 @@ typing_extensions==4.15.0
 urllib3==2.5.0
 pandas==2.2.2
 gunicorn
+dotenv
