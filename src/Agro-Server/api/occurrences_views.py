@@ -8,8 +8,8 @@ from clients.bigquery_client import BigQueryClient
 from utils.validators import validar_occurrence, validar_id
 
 client = BigQueryClient()
-TABLE_NAME = "OCCURRENCE"
-CATEGORY_TABLE = "OCCURRENCE_CATEGORY"
+TABLE_NAME = "occurrence"
+CATEGORY_TABLE = "occurrence_category"
 
 @csrf_exempt
 def occurrences_view(request, occurrence_id=None):

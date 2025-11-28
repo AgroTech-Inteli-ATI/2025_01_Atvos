@@ -1,0 +1,30 @@
+curl -X POST https://src-api-1008983555717.europe-west1.run.app/api/bigquery/inserir/ \
+     -H "Content-Type: application/json" \
+     -d '{
+           "table_id": "unit",
+           "row": {
+            "id": "11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+            "name": "KPU9A36",
+            "description": "Ônibus Conlog 3706, equipado com DVR"
+          }
+         }'
+
+curl -X POST https://src-api-1008983555717.europe-west1.run.app/api/bigquery/atualizar/ \
+     -H "Content-Type: application/json" \
+     -d '{
+           "table_id": "unit",
+           "id": "11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+           "updates": {
+            "name": "KPU9A36",
+            "description": "Ônibus Passáro Marrom 3706, equipado com DVR"
+          }
+         }'
+
+curl -X POST https://src-api-1008983555717.europe-west1.run.app/api/bigquery/remover/ \
+     -H "Content-Type: application/json" \
+     -d '{
+           "table_id": "unit",
+           "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+         }'
+
+curl -X GET "https://src-api-1008983555717.europe-west1.run.app/bigquery/download/?table=nome_da_tabela"
