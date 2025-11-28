@@ -12,12 +12,12 @@ from .helpers import build_datetime_filters, parse_iso_datetime
 
 client = BigQueryClient()
 
-TABLE_NAME = "TRAVEL"
-UNIT_TABLE = "UNIT"
-BILL_TABLE = "BILL"
+TABLE_NAME = "travel"
+UNIT_TABLE = "unit"
+BILL_TABLE = "bill"
 
 _COST_EXPRESSION = (
-    "COALESCE(b.total_cost, b.fix_cost + COALESCE(b.variable_km, 0) * "
+    "COALESCE(b.fix_cost + COALESCE(b.variable_km, 0) * "
     "COALESCE(t.full_distance, 0), 0)"
 )
 
@@ -28,6 +28,7 @@ def _build_travel_filters(request) -> List[str]:
     filters = build_datetime_filters("t.datetime", start_dt, end_dt)
 
     unit_id = request.GET.get("unit_id")
+    print(f"PAPAI TÁ AQUI Ó A SUA LINDEZA: ", unit_id)
     if unit_id:
         filters.append(f"t.unit_id = '{unit_id}'")
     return filters
@@ -49,7 +50,6 @@ def _build_travel_query(where_clause: str, include_bill: bool) -> str:
         SELECT
             t.id,
             t.datetime,
-            t.license_plate,
             t.asset_description,
             t.register_number,
             t.garage_name,
@@ -72,6 +72,7 @@ def listar_travels(request):
         return JsonResponse({"erro": "Método não permitido"}, status=405)
 
     try:
+        print("SEGUE AQUI A REQUEST DE api/travels: ", request)
         limit = request.GET.get("limit")
         try:
             limit_value = int(limit) if limit else 100

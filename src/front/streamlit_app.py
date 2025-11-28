@@ -9,7 +9,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Travel Cost Dashboard", layout="wide")
 
-DEFAULT_BASE_URL = os.getenv("AGRO_API_BASE_URL", "http://localhost:8000/api")
+DEFAULT_BASE_URL = os.getenv("AGRO_API_BASE_URL", "https://src-api-1008983555717.europe-west1.run.app/api")
 DEFAULT_TOKEN = os.getenv("AGRO_API_TOKEN", "")
 PERIOD_LABELS = {
     "month": "Mensal",

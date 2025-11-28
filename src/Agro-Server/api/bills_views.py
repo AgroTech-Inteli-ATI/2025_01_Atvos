@@ -10,8 +10,8 @@ from .helpers import build_datetime_filters, parse_iso_datetime
 
 client = BigQueryClient()
 
-BILL_TABLE = "BILL"
-TRAVEL_TABLE = "TRAVEL"
+BILL_TABLE = "bill"
+TRAVEL_TABLE = "travel"
 
 
 @csrf_exempt
@@ -34,7 +34,7 @@ def listar_bills(request):
             b.datetime,
             b.fix_cost,
             b.variable_km,
-            COALESCE(b.total_cost, b.fix_cost + COALESCE(b.variable_km, 0) * COALESCE(t.full_distance, 0), 0)
+            COALESCE(b.fix_cost + COALESCE(b.variable_km, 0) * COALESCE(t.full_distance, 0), 0)
                 AS total_cost
         FROM `{client.table_ref(BILL_TABLE)}` b
         INNER JOIN `{client.table_ref(TRAVEL_TABLE)}` t ON t.id = b.travel_id

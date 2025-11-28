@@ -13,8 +13,7 @@ from .helpers import build_datetime_filters, parse_iso_datetime
 client = BigQueryClient()
 
 _COST_EXPRESSION = (
-    "COALESCE(b.total_cost, b.fix_cost + COALESCE(b.variable_km, 0) * "
-    "COALESCE(t.full_distance, 0), 0)"
+    "COALESCE(b.fix_cost + COALESCE(b.variable_km, 0) * COALESCE(t.full_distance, 0), 0)"
 )
 
 
@@ -42,8 +41,8 @@ def unit_summary(request):
             u.name AS unit_name,
             COUNT(t.id) AS total_viagens,
             COALESCE(SUM(t.full_distance), 0) AS total_km
-        FROM `{client.table_ref("UNIT")}` u
-        LEFT JOIN `{client.table_ref("TRAVEL")}` t ON t.unit_id = u.id
+        FROM `{client.table_ref("unit")}` u
+        LEFT JOIN `{client.table_ref("travel")}` t ON t.unit_id = u.id
         GROUP BY u.id, u.name
         ORDER BY u.name
         """
@@ -76,15 +75,15 @@ def occurrence_summary(request):
             cat.id AS category_id,
             cat.name AS category_name,
             COUNT(occ.id) AS total_ocorrencias
-        FROM `{client.table_ref("OCCURRENCE_CATEGORY")}` cat
-        LEFT JOIN `{client.table_ref("OCCURRENCE")}` occ ON occ.category_id = cat.id
+        FROM `{client.table_ref("occurrence_category")}` cat
+        LEFT JOIN `{client.table_ref("occurrence")}` occ ON occ.category_id = cat.id
         GROUP BY cat.id, cat.name
         ORDER BY total_ocorrencias DESC
         """
 
         query_total = f"""
         SELECT COUNT(*) AS total_ocorrencias
-        FROM `{client.table_ref("OCCURRENCE")}`
+        FROM `{client.table_ref("occurrence")}`
         """
 
         categorias = client.executar_query(query_categoria)
@@ -116,16 +115,52 @@ def travel_summary(request):
         return JsonResponse({"erro": "Método não permitido"}, status=405)
 
     try:
+        print("\nSEGUE AQUI O REQUEST DE TRAVEL SUMMARY: ", request)
+
+        # =======================================================
+        # 1) MONTA OS FILTROS (AGORA ANTES DA DEBUG QUERY)
+        # =======================================================
         filters = _build_common_filters(request)
         where_clause = f"WHERE {' AND '.join(filters)}" if filters else ""
+
+        # =======================================================
+        # 2) QUERY DE DEBUG — COM OS MESMOS FILTROS
+        # =======================================================
+        debug_query = f"""
+        SELECT
+            t.id AS travel_id_from_travel,
+            b.travel_id AS travel_id_from_bill,
+            t.datetime
+        FROM `{client.table_ref("travel")}` t
+        LEFT JOIN `{client.table_ref("bill")}` b ON b.travel_id = t.id
+        {where_clause}
+        LIMIT 20
+        """
+
+        print("\n🔎 Rodando QUERY DE DEBUG para verificar JOIN:")
+        print(debug_query)
+
+        try:
+            debug_results = client.executar_query(debug_query)
+        except Exception as e:
+            print("⚠️ Erro na query de debug:", e)
+            debug_results = []
+
+        print("\n🔥 RESULTADOS DA QUERY DE DEBUG (t.id e b.travel_id):")
+        for r in debug_results:
+            print("   ➤", r)
+
+        # =======================================================
+        # 3) QUERY PRINCIPAL
+        # =======================================================
 
         query = f"""
         SELECT
             COUNT(t.id) AS total_travels,
             COALESCE(SUM(t.full_distance), 0) AS total_distance_km,
             COALESCE(SUM({_COST_EXPRESSION}), 0) AS total_cost
-        FROM `{client.table_ref("TRAVEL")}` t
-        LEFT JOIN `{client.table_ref("BILL")}` b ON b.travel_id = t.id
+        FROM `{client.table_ref("travel")}` t
+        LEFT JOIN `{client.table_ref("bill")}` b ON b.travel_id = t.id
         {where_clause}
         """
 
@@ -137,10 +172,11 @@ def travel_summary(request):
                 COUNT(t.id) AS total_travels,
                 COALESCE(SUM(t.full_distance), 0) AS total_distance_km,
                 0 AS total_cost
-            FROM `{client.table_ref("TRAVEL")}` t
+            FROM `{client.table_ref("travel")}` t
             {where_clause}
             """
             results = client.executar_query(fallback_query)
+
         row = results[0] if results else {}
 
         total_travels = int(row.get("total_travels", 0) or 0)
@@ -152,14 +188,14 @@ def travel_summary(request):
             "total_distance_km": total_distance,
             "total_cost": total_cost,
             "avg_cost_per_travel": total_cost / total_travels if total_travels else 0.0,
-            "avg_distance_per_travel": total_distance / total_travels
-            if total_travels
-            else 0.0,
+            "avg_distance_per_travel": total_distance / total_travels if total_travels else 0.0,
         }
 
         return JsonResponse({"status": "ok", "data": data})
+
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=500)
+
 
 
 @csrf_exempt
@@ -193,8 +229,8 @@ def cost_evolution(request):
             COUNT(t.id) AS total_travels,
             COALESCE(SUM(t.full_distance), 0) AS total_distance_km,
             COALESCE(SUM({_COST_EXPRESSION}), 0) AS total_cost
-        FROM `{client.table_ref("TRAVEL")}` t
-        LEFT JOIN `{client.table_ref("BILL")}` b ON b.travel_id = t.id
+        FROM `{client.table_ref("travel")}` t
+        LEFT JOIN `{client.table_ref("bill")}` b ON b.travel_id = t.id
         {where_clause}
         GROUP BY period_label
         ORDER BY period_start
@@ -213,7 +249,7 @@ def cost_evolution(request):
                 COUNT(t.id) AS total_travels,
                 COALESCE(SUM(t.full_distance), 0) AS total_distance_km,
                 0 AS total_cost
-            FROM `{client.table_ref("TRAVEL")}` t
+            FROM `{client.table_ref("travel")}` t
             {where_clause}
             GROUP BY period_label
             ORDER BY period_start

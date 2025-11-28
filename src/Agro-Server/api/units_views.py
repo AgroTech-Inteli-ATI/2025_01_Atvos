@@ -8,7 +8,7 @@ from clients.bigquery_client import BigQueryClient
 from utils.validators import validar_unit, validar_id
 
 client = BigQueryClient()
-TABLE_NAME = "UNIT"
+TABLE_NAME = "unit"
 
 @csrf_exempt
 def unidades_view(request, unit_id=None):

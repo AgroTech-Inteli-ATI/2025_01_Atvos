@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./Agro-Server
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONUNBUFFERED: 1
+      PYTHONDONTWRITEBYTECODE: 1
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    environment:
+      API_URL: "https://src-api-1008983555717.europe-west1.run.app"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
