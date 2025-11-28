@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 slug: /sprint-1/processos/Persona
 description: "Identificação das personas"
 ---

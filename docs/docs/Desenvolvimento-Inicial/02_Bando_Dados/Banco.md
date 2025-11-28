@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 slug: /sprint-2/banco-de-dados/arquitetura
 description: "Descrição da arquitura do banco de dados"
 ---

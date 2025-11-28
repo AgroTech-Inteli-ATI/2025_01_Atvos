@@ -1,5 +1,5 @@
 ---
-sidebar\_position: 5
+sidebar\_position: 4
 slug: /sprint-1/arquitetura/fluxo-ingestao
 description: "Especificação do fluxo de ingestão de dados"
 ---

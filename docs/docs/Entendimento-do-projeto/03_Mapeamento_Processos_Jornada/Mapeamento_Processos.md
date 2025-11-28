@@ -16,8 +16,6 @@ Este documento apresenta o mapeamento dos processos e dados relacionados à loco
 - **Solução proposta:** captura automática via telemetria (GPS, odômetro, sensores e identificação do motorista).  
 - **Benefício esperado:** confiabilidade, redução de retrabalho e integração entre operação e administração.  
 
-
-
 ## Processo de Ingestão de Dados
 Este processo descreve como as informações das viagens são capturadas automaticamente por meio da telemetria e validadas para garantir consistência e qualidade.
 
@@ -83,9 +81,6 @@ A auditoria assegura a integridade do sistema, mantendo trilhas de dados, logs d
 
 ### Controles
 - Conformidade com governança, auditoria e proteção contra fraudes.  
-
-
-
 
 ## Fluxograma Geral
 O fluxograma a seguir apresenta uma visão consolidada do processo de transporte, desde o início da viagem até a geração de relatórios administrativos e financeiros. Ele evidencia a sequência das etapas, as interações entre sistemas e os pontos críticos de captura de dados, servindo como referência visual para compreender o fluxo completo de informações.

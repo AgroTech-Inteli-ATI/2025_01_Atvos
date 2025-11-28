@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 5
 slug: /sprint-1/arquitetura/deploy-logs
 description: "Estratégia de deploy e sistema de logs"
 ---

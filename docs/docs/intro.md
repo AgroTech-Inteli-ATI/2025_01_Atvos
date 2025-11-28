@@ -36,31 +36,38 @@ Desenvolver uma plataforma web que consome dados de telemetria de ônibus e micr
 
 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '100%' }}>
   <div style={{ margin: 10, textAlign: 'center', width: '20%', minWidth: '120px', maxWidth: '150px' }}>
-    <a href="https://www.linkedin.com/in/laura-rodrigues31/">
-      <img src={require("../static/img/Laura.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
+    <a href="https://www.linkedin.com/in/carlosicaro/">
+      <img src={require("../static/img/carlos.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
       <br />
-      <sub><b>Laura Rodrigues</b></sub>
+      <sub><b>Carlos Icaro</b></sub>
     </a>
   </div>
   <div style={{ margin: 10, textAlign: 'center', width: '20%', minWidth: '120px', maxWidth: '150px' }}>
-    <a href="https://www.linkedin.com/in/laura-rodrigues31/">
-      <img src={require("../static/img/Laura.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
+    <a href="https://www.linkedin.com/in/iisabelledantas/">
+      <img src={require("../static/img/Isabelle.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
       <br />
-      <sub><b>Laura Rodrigues</b></sub>
+      <sub><b>Isabelle Dantas</b></sub>
     </a>
   </div>
   <div style={{ margin: 10, textAlign: 'center', width: '20%', minWidth: '120px', maxWidth: '150px' }}>
-    <a href="https://www.linkedin.com/in/laura-rodrigues31/">
+    <a href="https://www.linkedin.com/in/joao/">
       <img src={require("../static/img/Laura.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
       <br />
-      <sub><b>Laura Rodrigues</b></sub>
+      <sub><b>João Furtado</b></sub>
     </a>
   </div>
   <div style={{ margin: 10, textAlign: 'center', width: '20%', minWidth: '120px', maxWidth: '150px' }}>
-    <a href="https://www.linkedin.com/in/laura-rodrigues31/">
-      <img src={require("../static/img/Laura.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
+    <a href="https://www.linkedin.com/in/marcos-vinicius-m-silva/">
+      <img src={require("../static/img/marcos.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
       <br />
-      <sub><b>Laura Rodrigues</b></sub>
+      <sub><b>Marcos Silva</b></sub>
+    </a>
+  </div>
+    <div style={{ margin: 10, textAlign: 'center', width: '20%', minWidth: '120px', maxWidth: '150px' }}>
+    <a href="https://www.linkedin.com/in/murilo-couto-oliveira/">
+      <img src={require("../static/img/murilo.png").default} style={{ borderRadius: '10%', width: '100%' }} alt="Laura Rodrigues" />
+      <br />
+      <sub><b>Murilo Couto</b></sub>
     </a>
   </div>
 </div>

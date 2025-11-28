@@ -1,8 +1,0 @@
-{
-  "label": "Arquitetura do banco de dados",
-  "position": 1,
-  "link": {
-    "type": "generated-index",
-    "description": "O dicionário de dados e tabelas é um documento que contém as descrições sobre os dados recebidos."
-  }
-}
