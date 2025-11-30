@@ -28,3 +28,8 @@ curl -X POST https://src-api-1008983555717.europe-west1.run.app/api/bigquery/rem
          }'
 
 curl -X GET "https://src-api-1008983555717.europe-west1.run.app/bigquery/download/?table=nome_da_tabela"
+
+
+gcloud compute instances add-tags instance-20251128-062209 \
+    --tags=streamlit-server \
+    --zone=us-central
