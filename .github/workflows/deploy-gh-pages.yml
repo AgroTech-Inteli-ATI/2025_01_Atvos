@@ -29,10 +29,12 @@ jobs:
         working-directory: docs
         run: npm run build
 
+      - name: Prepare tmp directory for Docusaurus deploy
+        run: mkdir -p /tmp/2025_01_Atvos
+
       - name: Deploy to gh-pages branch
         working-directory: docs
         env:
           GIT_USER: github-actions[bot]
           GIT_PASS: ${{ secrets.GITHUB_TOKEN }}
-          TMPDIR: /tmp
         run: npm run deploy
