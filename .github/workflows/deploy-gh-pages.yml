@@ -34,4 +34,5 @@ jobs:
         env:
           GIT_USER: github-actions[bot]
           GIT_PASS: ${{ secrets.GITHUB_TOKEN }}
+          TMPDIR: /tmp
         run: npm run deploy
