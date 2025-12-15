@@ -8,7 +8,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://inteliprojects.github.io', // Atualize conforme sua organização
-  baseUrl: '2025_01_Atvos',
+  baseUrl: '/2025_01_Atvos/',
 
   organizationName: 'InteliProjects', // Atualize conforme sua organização
   projectName: '2025_01_Atvos',
