@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages (branch)
 
 on:
   push:
-    branches: [ "main" ]  # troque se seu branch principal for outro
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -19,14 +19,18 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: docs/package-lock.json
 
       - name: Install deps
+        working-directory: docs
         run: npm ci
 
       - name: Build
+        working-directory: docs
         run: npm run build
 
       - name: Deploy to gh-pages branch
+        working-directory: docs
         env:
           GIT_USER: github-actions[bot]
           GIT_PASS: ${{ secrets.GITHUB_TOKEN }}
