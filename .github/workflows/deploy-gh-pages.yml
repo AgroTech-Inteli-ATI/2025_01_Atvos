@@ -34,4 +34,4 @@ jobs:
         env:
           GIT_USER: github-actions[bot]
           GIT_PASS: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run deploy -- --git-strategy branch
+        run: npm run deploy
