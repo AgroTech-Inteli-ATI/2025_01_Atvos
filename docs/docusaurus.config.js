@@ -11,7 +11,7 @@ const config = {
   baseUrl: '2025_01_Atvos',
 
   organizationName: 'InteliProjects', // Atualize conforme sua organização
-  projectName: '2025_01_Atvos',
+  projectName: '/2025_01_Atvos/',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
